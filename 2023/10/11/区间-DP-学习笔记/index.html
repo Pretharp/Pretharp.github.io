@@ -1,99 +1,270 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  
-  <title>Pretharp&#39;s Blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="本文由 Pretharp 编写，转载需注明出处，禁止用于任何形式的商业用途。 1 区间 DP 简介1.1 基本思想区间 DP 是一种通常以区间长度作为拓扑序来转移的 DP。 顾名思义，这种 DP 通常解决一些区间问题，因为没有过多固定的模板，将以例题介绍为主。 2 例题2.1 例题 1~3例题 1：[NOI1995] 石子合并 题目大意：  有 $n$ 堆构成环形的石子（即 $1$ 号石子和 $n">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="The Redefine Team">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://example.com/2023/10/11/区间-dp-学习笔记/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="本文由 Pretharp  编写，转载需注明出处，禁止用于任何形式的商业用途。 1 区间 DP 简介1.1 基本思想区间 DP 是一种通常以区间长度作为拓扑序来转移的 DP。 顾名思义，这种 DP 通常解决一些区间问题，因为没有过多固定的模板，将以例题介绍为主。 2 例题2.1 例题 1~3例题 1：[NOI1995] 石子合并  题目大意：  有 $n$ 堆构成环形的石子（即 $1$ 号石子和">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Pretharp&#39;s Blog">
 <meta property="og:url" content="http://example.com/2023/10/11/%E5%8C%BA%E9%97%B4-DP-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Pretharp&#39;s Blog">
-<meta property="og:description" content="本文由 Pretharp 编写，转载需注明出处，禁止用于任何形式的商业用途。 1 区间 DP 简介1.1 基本思想区间 DP 是一种通常以区间长度作为拓扑序来转移的 DP。 顾名思义，这种 DP 通常解决一些区间问题，因为没有过多固定的模板，将以例题介绍为主。 2 例题2.1 例题 1~3例题 1：[NOI1995] 石子合并 题目大意：  有 $n$ 堆构成环形的石子（即 $1$ 号石子和 $n">
+<meta property="og:description" content="本文由 Pretharp  编写，转载需注明出处，禁止用于任何形式的商业用途。 1 区间 DP 简介1.1 基本思想区间 DP 是一种通常以区间长度作为拓扑序来转移的 DP。 顾名思义，这种 DP 通常解决一些区间问题，因为没有过多固定的模板，将以例题介绍为主。 2 例题2.1 例题 1~3例题 1：[NOI1995] 石子合并  题目大意：  有 $n$ 堆构成环形的石子（即 $1$ 号石子和">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-10-11T03:46:14.792Z">
 <meta property="article:modified_time" content="2023-10-11T03:52:07.226Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Pretharp's Blog" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
     
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
-
-  
-  
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+        Theme Redefine
+    </title>
+    
 <link rel="stylesheet" href="/css/style.css">
 
-  
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
 
-  
-  
+    
+        
+<link rel="stylesheet" href="/assets/build/styles.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/fonts.css">
+
+    
+<link rel="stylesheet" href="/fonts/Satoshi/satoshi.css">
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    window.config = {"hostname":"example.com","root":"/","language":"en"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Theme Redefine","subtitle":{"text":[],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.5.0","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":null},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
 <meta name="generator" content="Hexo 6.3.0"></head>
 
+
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Pretharp&#39;s Blog</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Seucionfrin Town Library</a>
-        </h2>
-      
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="swup-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Theme Redefine
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        HOME
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer w-full absolute top-0 left-0 bg-background-color">
+        <ul class="drawer-navbar-list flex flex-col justify-start items-center">
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                HOME
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+
+        </ul>
     </div>
-  </div>
+
+    <div class="window-mask"></div>
+
 </header>
 
-      <div class="outer">
-        <section id="main"><article id="post-区间-DP-学习笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/10/11/%E5%8C%BA%E9%97%B4-DP-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
-  <time class="dt-published" datetime="2023-10-11T03:46:14.792Z" itemprop="datePublished">2023-10-11</time>
-</a>
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            
+                <h1 class="article-title-regular"></h1>
+            
+            </div>
+            
+                    
+        
+        
+            <div class="article-header flex flex-row gap-2 items-center">
+                <div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+                    <img src="/images/redefine-avatar.svg">
+                </div>
+                <div class="info flex flex-col justify-between">
+                    <div class="author flex items-center">
+                        <span class="name text-default-text-color text-lg font-semibold">The Redefine Team</span>
+                        
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv1</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-10-11 11:46:14</span>
+        <span class="mobile">2023-10-11 11:46:14</span>
+        <span class="hover-info">Created</span>
+    </span>
     
-  </div>
-  <div class="article-inner">
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-10-11 11:52:07</span>
+            <span class="mobile">2023-10-11 11:52:07</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
     
     
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><strong>本文由 <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/user/612663">Pretharp</a> 编写，转载需注明出处，禁止用于任何形式的商业用途。</strong></p>
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body">
+            <p><strong>本文由 <a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/user/612663" >Pretharp <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 编写，转载需注明出处，禁止用于任何形式的商业用途。</strong></p>
 <h1 id="1-区间-DP-简介"><a href="#1-区间-DP-简介" class="headerlink" title="1 区间 DP 简介"></a>1 区间 DP 简介</h1><h2 id="1-1-基本思想"><a href="#1-1-基本思想" class="headerlink" title="1.1 基本思想"></a>1.1 基本思想</h2><p><strong>区间 DP 是一种通常以区间长度作为拓扑序来转移的 DP。</strong> 顾名思义，这种 DP 通常解决一些区间问题，因为没有过多固定的模板，将以例题介绍为主。</p>
-<h1 id="2-例题"><a href="#2-例题" class="headerlink" title="2 例题"></a>2 例题</h1><h2 id="2-1-例题-1-3"><a href="#2-1-例题-1-3" class="headerlink" title="2.1 例题 1~3"></a>2.1 例题 1~3</h2><p><strong>例题 1：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1880">[NOI1995] 石子合并</a></strong></p>
+<h1 id="2-例题"><a href="#2-例题" class="headerlink" title="2 例题"></a>2 例题</h1><h2 id="2-1-例题-1-3"><a href="#2-1-例题-1-3" class="headerlink" title="2.1 例题 1~3"></a>2.1 例题 1~3</h2><p><strong>例题 1：<a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1880" >[NOI1995] 石子合并 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
 <p><strong>题目大意：</strong></p>
 <blockquote>
 <p>有 $n$ 堆构成环形的石子（即 $1$ 号石子和 $n$ 号石子相邻），每次可以合并相邻的两堆石子，合并后的石子数为两堆石子数之和，且你将获得与合并后的石子数相等的分数。求石子合并得只剩下一堆时，你获得的分数最大与最小。</p>
@@ -102,7 +273,7 @@
 <p>以求最大值为例。</p>
 <p>我们不妨设 $f_{i,j}$ 表示将区间 $[i,j]$ 中的石子全部合并为一堆后的最大得分。我们根据以区间长度为拓扑序作为基础，<strong>先枚举区间长度以及起点确定区间</strong>，之后也能一并确定出终点。之后，我们将引入区间 DP 最常见的一个转移方式 —— 枚举断点。在区间 $[i,j]$ 下，我们可以枚举 $k \in [i,j)$，$f_{i,j}$ 就是由 $f_{i,k}$ 和 $f_{k+1,j}$ 转移而来（也就是区间 $[i,j]$ 的答案由 $[i,k]$ 和 $[k+1,j]$ 合并而来），即：<br>$$<br>f_{i,j}&#x3D;\max{f_{i,k}+f_{k+1,j}+\operatorname{sum}(i,j)}<br>$$<br>其中 $\operatorname{sum}(i,j)$ 表示 $[i,j]$ 之间初始的石子数量和。考虑到给定的石子堆是一个环，我们将石子堆复制一遍即可。</p>
 <p>代码过于简单，故不给出，有需要可前往洛谷查看题解。</p>
-<p><strong>例题 2：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1063">[NOIP2006 提高组] 能量项链</a></strong></p>
+<p><strong>例题 2：<a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1063" >[NOIP2006 提高组] 能量项链 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
 <p><strong>题目大意：</strong></p>
 <blockquote>
 <p>给一串有 $n$ 个珠子的项链（环形，即第 $1$ 个珠子和第 $n$ 个珠子相邻），第 $i$ 个项链有一个 $a_i$ 和 $b_i$，保证对于 $x \in [1,n)$ 有 $b_x&#x3D;a_{x+1}$，$b_n&#x3D;a_1$。你可以合并两个相邻的珠子（设其编号为 $i$ 和 $i+1$），合并后你能得到 $a_i \times b_i \times a_{i+1}$ 点能量，合并后的项链（设其编号为 $j$）其 $a_j&#x3D;a_i,b_j&#x3D;b_{i+1}$ 。问当项链只剩下一颗珠子时可获得的最大能量。</p>
@@ -110,9 +281,9 @@
 <p><strong>分析：</strong></p>
 <p>依然设 $f_{i,j}$ 表示将区间 $[i,j]$ 内的所有珠子合并后所获得的能量最大值。枚举需要转移的区间和长度，再枚举断点，那么状态转移方程就是：<br>$$<br>f_{i,j}&#x3D;\max{f_{i,k}+f_{k+1,j}+a_i \times a_{k+1} \times b_j}<br>$$<br>不理解建议自己推推。至于环形的话和例题 $1$ 一样，复制一遍即可。</p>
 <p><strong>参考代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> int long long</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> pii pair<span class="string">&lt;int, int&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> fir first</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sec second</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">210</span>;</span><br><span class="line"><span class="type">int</span> n, tmp, f[N][N];</span><br><span class="line">pii a[N];</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; tmp;</span><br><span class="line">	a[<span class="number">1</span>].fir = a[n].sec = tmp;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n; i ++) &#123;</span><br><span class="line">		cin &gt;&gt; tmp;</span><br><span class="line">		a[i - <span class="number">1</span>].sec = a[i].fir = tmp;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = n + <span class="number">1</span>; i &lt;= <span class="number">2</span> * n - <span class="number">1</span>; i ++) &#123;</span><br><span class="line">		a[i] = a[i - n];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> len = <span class="number">2</span>; len &lt;= <span class="number">2</span> * n - <span class="number">1</span>; len ++) &#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>, j; (j = i + len - <span class="number">1</span>) &lt;= <span class="number">2</span> * n - <span class="number">1</span>; i ++) &#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> k = i; k &lt; j; k ++) &#123;</span><br><span class="line">				f[i][j] = <span class="built_in">max</span>(f[i][j], f[i][k] + f[k + <span class="number">1</span>][j] + a[i].fir * a[k + <span class="number">1</span>].fir * a[j].sec);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; f[<span class="number">1</span>][<span class="number">2</span> * n - <span class="number">1</span>] / <span class="number">2</span> &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> int long long</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> pii pair<span class="string">&lt;int, int&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> fir first</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sec second</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">210</span>;</span><br><span class="line"><span class="type">int</span> n, tmp, f[N][N];</span><br><span class="line">pii a[N];</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; tmp;</span><br><span class="line">	a[<span class="number">1</span>].fir = a[n].sec = tmp;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n; i ++) &#123;</span><br><span class="line">		cin &gt;&gt; tmp;</span><br><span class="line">		a[i - <span class="number">1</span>].sec = a[i].fir = tmp;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = n + <span class="number">1</span>; i &lt;= <span class="number">2</span> * n - <span class="number">1</span>; i ++) &#123;</span><br><span class="line">		a[i] = a[i - n];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> len = <span class="number">2</span>; len &lt;= <span class="number">2</span> * n - <span class="number">1</span>; len ++) &#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>, j; (j = i + len - <span class="number">1</span>) &lt;= <span class="number">2</span> * n - <span class="number">1</span>; i ++) &#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> k = i; k &lt; j; k ++) &#123;</span><br><span class="line">				f[i][j] = <span class="built_in">max</span>(f[i][j], f[i][k] + f[k + <span class="number">1</span>][j] + a[i].fir * a[k + <span class="number">1</span>].fir * a[j].sec);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; f[<span class="number">1</span>][<span class="number">2</span> * n - <span class="number">1</span>] / <span class="number">2</span> &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
 
-<p><strong>例题 3：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4302">[SCOI2003] 字符串折叠</a></strong></p>
+<p><strong>例题 3：<a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4302" >[SCOI2003] 字符串折叠 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
 <p><strong>题目大意：</strong></p>
 <blockquote>
 <p>给定一个字符串 $S$，求它折叠后的最短长度。折叠方法如下：</p>
@@ -126,12 +297,12 @@
 <p>设 $f_{i,j}$ 表示将 $[i,j]$ 折叠后的最小长度。先考虑当前区间不折叠时的状态转移方程：<br>$$<br>f_{i,j}&#x3D;\min{f_{i,k}+f_{k+1,j}}<br>$$</p>
 <p>接下来考虑有折叠的。考虑到无法确定最短循环节折叠后是否为子问题最优，以及无法直接确定最短循环节长度，不妨干脆枚举循环节长度，然后暴力判断是否合法。因此对于每一个 $l$，若其为子串 $[i,j]$ 中一个合法的循环节长度，有状态转移方程：<br>$$<br>f_{i,j}&#x3D;\min{f_{i,i+l-1}+\operatorname{num}(len \div l) + 2}<br>$$<br>其中 $len$ 当前需要转移的区间长度，$\operatorname{num}(len \div l)$ 表示折叠后 $X(S)$ 中 $X$ 这个数字的长度，还要加上 $2$ 是括号长度。</p>
 <p><strong>参考代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">110</span>;</span><br><span class="line"><span class="type">int</span> n, f[N][N], num[N];</span><br><span class="line">string s;</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">canFold</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> len)</span> </span>&#123; <span class="comment">// canFold() 判断在区间 [l,r] 中是否存在一个长度为 len 的循环节。</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = l + len; i &lt;= r; i ++) &#123;</span><br><span class="line">		<span class="keyword">if</span>(s[i] != s[i - len]) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cin &gt;&gt; s, n = s.<span class="built_in">size</span>();</span><br><span class="line">	s = <span class="string">&#x27; &#x27;</span> + s;</span><br><span class="line">	<span class="built_in">memset</span>(f, <span class="number">0x3f</span>, <span class="keyword">sizeof</span> f);</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++) &#123;</span><br><span class="line">		f[i][i] = <span class="number">1</span>;</span><br><span class="line">		num[i] = num[i / <span class="number">10</span>] + <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> len = <span class="number">2</span>; len &lt;= n; len ++) &#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>, j; (j = i + len - <span class="number">1</span>) &lt;= n; i ++) &#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> k = i; k &lt; j; k ++) &#123;</span><br><span class="line">				f[i][j] = <span class="built_in">min</span>(f[i][j], f[i][k] + f[k + <span class="number">1</span>][j]);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> l = <span class="number">1</span>; l &lt;= len / <span class="number">2</span>; l ++) &#123;</span><br><span class="line">				<span class="keyword">if</span>(len % l || !<span class="built_in">canFold</span>(i, j, l)) &#123;</span><br><span class="line">					<span class="keyword">continue</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				f[i][j] = <span class="built_in">min</span>(f[i][j], f[i][i + l - <span class="number">1</span>] + num[len / l] + <span class="number">2</span>); </span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="keyword">return</span> cout &lt;&lt; f[<span class="number">1</span>][n] &lt;&lt; endl, <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">110</span>;</span><br><span class="line"><span class="type">int</span> n, f[N][N], num[N];</span><br><span class="line">string s;</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">canFold</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> len)</span> </span>&#123; <span class="comment">// canFold() 判断在区间 [l,r] 中是否存在一个长度为 len 的循环节。</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = l + len; i &lt;= r; i ++) &#123;</span><br><span class="line">		<span class="keyword">if</span>(s[i] != s[i - len]) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cin &gt;&gt; s, n = s.<span class="built_in">size</span>();</span><br><span class="line">	s = <span class="string">&#x27; &#x27;</span> + s;</span><br><span class="line">	<span class="built_in">memset</span>(f, <span class="number">0x3f</span>, <span class="keyword">sizeof</span> f);</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++) &#123;</span><br><span class="line">		f[i][i] = <span class="number">1</span>;</span><br><span class="line">		num[i] = num[i / <span class="number">10</span>] + <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> len = <span class="number">2</span>; len &lt;= n; len ++) &#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>, j; (j = i + len - <span class="number">1</span>) &lt;= n; i ++) &#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> k = i; k &lt; j; k ++) &#123;</span><br><span class="line">				f[i][j] = <span class="built_in">min</span>(f[i][j], f[i][k] + f[k + <span class="number">1</span>][j]);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> l = <span class="number">1</span>; l &lt;= len / <span class="number">2</span>; l ++) &#123;</span><br><span class="line">				<span class="keyword">if</span>(len % l || !<span class="built_in">canFold</span>(i, j, l)) &#123;</span><br><span class="line">					<span class="keyword">continue</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				f[i][j] = <span class="built_in">min</span>(f[i][j], f[i][i + l - <span class="number">1</span>] + num[len / l] + <span class="number">2</span>); </span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="keyword">return</span> cout &lt;&lt; f[<span class="number">1</span>][n] &lt;&lt; endl, <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
 
 <p><strong>小结：</strong></p>
 <p>以上都是区间 DP 中最基础的题目，主要考察设计状态，相关练习参见「3 习题」部分中的前两道题。</p>
 <h2 id="2-2-例题-4-5"><a href="#2-2-例题-4-5" class="headerlink" title="2.2 例题 4~5"></a>2.2 例题 4~5</h2><p>前面的题都还算好想，接下来我们将状态变得更加复杂。</p>
-<p><strong>例题 4：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1220">[洛谷 P1220] 关路灯</a></strong></p>
+<p><strong>例题 4：<a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1220" >[洛谷 P1220] 关路灯 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
 <p><strong>题目大意：</strong></p>
 <blockquote>
 <p>有 $n$ 盏路灯，第 $i$ 盏路灯位于 $pos_i$ ，每秒消耗 $cos_i$ 点电，一开始你位于编号为 $c$ 的路灯处。接下来你可以以每秒一个单位长度的速度向前或者向后移动，当你碰到了一盏路灯时其将会立刻关闭（停止消耗电量），问将所有路灯关闭后最小消耗总电量。</p>
@@ -141,9 +312,9 @@
 <p>区间 DP，但是简简单单的 $f_{i,j}$ 表示将 $[i,j]$ 内的所有路灯关闭并不能直接统计出答案。假设当前关闭了 $[i,j]$ 内的所有路灯，接下来你要移动到 $i-1$ 的路灯，那么你有可能是从 $i$ 处移动到 $i-1$，也有可能是在 $j$ 处掉头回来，故无法统计答案。既然如此，我们不妨将状态增加一维，设 $f_{i,j,0&#x2F;1}$ 表示将区间 $[i,j]$ 内所有路灯关闭，且停留在 $i$ 处或者 $j$ 处的最小代价，那么 $f_{i,j,0}$ 就是从 $f_{i+1,j,0}$（顺便把 $i$ 关了）和 $f_{i+1,j,1}$（从 $j$ 掉头回来）转移而得。从 $f_{i+1,j,0}$ 转移而来的状态转移方程：<br>$$<br>f_{i,j,0}&#x3D;\min{f_{i+1,j,0}+(pos_{i+1}-pos_i)\times(\operatorname{sum}(1,n)-\operatorname{sum}(i+1,j)}<br>$$<br>其中 $(pos_{i+1}-pos_i)\times(\operatorname{sum}(1,n)\operatorname{sum}(i+1,j)$ 就是从 $i+1$ 走到 $i$ 时没有关掉的路灯耗得的电量，$\operatorname{sum}(x,y)$ 表示 $\sum\limits_{i&#x3D;x}^y cos_i$。从 $f_{i+1,j,1}$ 而来的转移方程：<br>$$<br>f_{i,j,0}&#x3D;\min{f_{i+1,j,1}+(pos_{j}-pos_i)\times(\operatorname{sum}(1,n)-\operatorname{sum}(i+1,j)}<br>$$</p>
 <p>$f_{i,j,1}$ 就是从 $f_{i,j-1,0}$ 和 $f_{i,j-1,1}$ 转移而来，与前面的类似，这里就不再赘述了。最后答案就是 $\min{f_{1,n,0},f_{1,n,1}}$。</p>
 <p><strong>参考代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> pii pair<span class="string">&lt;int, int&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> fir first</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sec second</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">55</span>;</span><br><span class="line"><span class="type">int</span> n, c, f[N][N][<span class="number">2</span>], sum[N]; </span><br><span class="line">pii a[N];</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; c;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++) &#123;</span><br><span class="line">		cin &gt;&gt; a[i].fir &gt;&gt; a[i].sec;</span><br><span class="line">		sum[i] = sum[i - <span class="number">1</span>] + a[i].sec;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">memset</span>(f, <span class="number">0x3f</span>, <span class="keyword">sizeof</span> f);</span><br><span class="line">	f[c][c][<span class="number">0</span>] = f[c][c][<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> len = <span class="number">2</span>; len &lt;= n; len ++) &#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>, j; (j = i + len - <span class="number">1</span>) &lt;= n; i ++) &#123;</span><br><span class="line">			<span class="type">int</span> cps1 = sum[n] - (sum[j] - sum[i]), cps2 = sum[n] - (sum[j - <span class="number">1</span>] - sum[i - <span class="number">1</span>]); <span class="comment">// cost per second</span></span><br><span class="line">			f[i][j][<span class="number">0</span>] = <span class="built_in">min</span>(</span><br><span class="line">				f[i + <span class="number">1</span>][j][<span class="number">0</span>] + (a[i + <span class="number">1</span>].fir - a[i].fir) * cps1, </span><br><span class="line">				f[i + <span class="number">1</span>][j][<span class="number">1</span>] + (a[j].fir - a[i].fir) * cps1</span><br><span class="line">			);</span><br><span class="line">			f[i][j][<span class="number">1</span>] = <span class="built_in">min</span>(</span><br><span class="line">				f[i][j - <span class="number">1</span>][<span class="number">1</span>] + (a[j].fir - a[j - <span class="number">1</span>].fir) * cps2,</span><br><span class="line">				f[i][j - <span class="number">1</span>][<span class="number">0</span>] + (a[j].fir - a[i].fir) * cps2</span><br><span class="line">			);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> cout &lt;&lt; <span class="built_in">min</span>(f[<span class="number">1</span>][n][<span class="number">0</span>], f[<span class="number">1</span>][n][<span class="number">1</span>]) &lt;&lt; endl, <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> pii pair<span class="string">&lt;int, int&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> fir first</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sec second</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">55</span>;</span><br><span class="line"><span class="type">int</span> n, c, f[N][N][<span class="number">2</span>], sum[N]; </span><br><span class="line">pii a[N];</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; c;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++) &#123;</span><br><span class="line">		cin &gt;&gt; a[i].fir &gt;&gt; a[i].sec;</span><br><span class="line">		sum[i] = sum[i - <span class="number">1</span>] + a[i].sec;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">memset</span>(f, <span class="number">0x3f</span>, <span class="keyword">sizeof</span> f);</span><br><span class="line">	f[c][c][<span class="number">0</span>] = f[c][c][<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> len = <span class="number">2</span>; len &lt;= n; len ++) &#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>, j; (j = i + len - <span class="number">1</span>) &lt;= n; i ++) &#123;</span><br><span class="line">			<span class="type">int</span> cps1 = sum[n] - (sum[j] - sum[i]), cps2 = sum[n] - (sum[j - <span class="number">1</span>] - sum[i - <span class="number">1</span>]); <span class="comment">// cost per second</span></span><br><span class="line">			f[i][j][<span class="number">0</span>] = <span class="built_in">min</span>(</span><br><span class="line">				f[i + <span class="number">1</span>][j][<span class="number">0</span>] + (a[i + <span class="number">1</span>].fir - a[i].fir) * cps1, </span><br><span class="line">				f[i + <span class="number">1</span>][j][<span class="number">1</span>] + (a[j].fir - a[i].fir) * cps1</span><br><span class="line">			);</span><br><span class="line">			f[i][j][<span class="number">1</span>] = <span class="built_in">min</span>(</span><br><span class="line">				f[i][j - <span class="number">1</span>][<span class="number">1</span>] + (a[j].fir - a[j - <span class="number">1</span>].fir) * cps2,</span><br><span class="line">				f[i][j - <span class="number">1</span>][<span class="number">0</span>] + (a[j].fir - a[i].fir) * cps2</span><br><span class="line">			);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> cout &lt;&lt; <span class="built_in">min</span>(f[<span class="number">1</span>][n][<span class="number">0</span>], f[<span class="number">1</span>][n][<span class="number">1</span>]) &lt;&lt; endl, <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
 
-<p><strong>例题 5：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2470">[SCOI2007] 压缩</a></strong></p>
+<p><strong>例题 5：<a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2470" >[SCOI2007] 压缩 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
 <p><strong>题目大意：</strong></p>
 <blockquote>
 <p>给定一个仅包含小写字母的字符串，你可以通过在其中添加大写字母 $\texttt{M}$ 和 $\texttt{R}$ 以对字符串进行压缩，压缩规则如下：</p>
@@ -153,142 +324,405 @@
 <p>求压缩后的字符串的最小长度。</p>
 </blockquote>
 <p><strong>分析：</strong></p>
-<p>其实不难，前提是先把题目搞清楚。这道题不像 <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4302">[SCOI2003] 字符串折叠</a> 可以随意嵌套，因为 $\texttt{M}$ 和 $\texttt{R}$ 并不像括号那样可以随意匹配，举例（字符串中的空格为方便阅读，实际并不存在）：</p>
+<p>其实不难，前提是先把题目搞清楚。这道题不像 <a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4302" >[SCOI2003] 字符串折叠 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 可以随意嵌套，因为 $\texttt{M}$ 和 $\texttt{R}$ 并不像括号那样可以随意匹配，举例（字符串中的空格为方便阅读，实际并不存在）：</p>
 <p>字符串 $\texttt{a ab ab a ab ab}$ 如果先折叠为 $\texttt{a MabR a MabR}$，再折叠为 $\texttt{a MabRR}$，那么应该先展开为 $\texttt{a MababR}$，再展开为 $\texttt{a abab abab}$，很显然是错误的。因为在第二次压缩后的第二个 $\texttt{R}$ 如果像括号匹配一样，不会与第一个 $\texttt{M}$ 匹配，而是复制从字符串开始之处到第二个 $\texttt{R}$ 的子串，可事实并非如此。</p>
 <p>不难发现字符串具体如何正确折叠只与是否包含 $\texttt{M}$ 有关，所以我们可以设计状态 $f_{i,j,0&#x2F;1}$ 表示在区间 $[i,j]$ 内，不包含或者包含 $\texttt{M}$ 的最小折叠长度。还要想清楚的一点，对于子问题 $f_{i,j,0&#x2F;1}$，我们的状态是基于在 $i-1$ 处有一个 $\texttt{M}$，洛谷上很多题解没有讲清楚这样做为什么是合法的，其实读者可以理解为对于任意一个子问题 $f_{i,j,0&#x2F;1}$ 都是在 $i$ 处有一个 $\texttt{M}$ 的，只不过考虑到对于整个字符串而言，有一个隐形的 $\texttt{M}$ 在整个字符串之前，<strong>考虑到区间 DP 是以区间长度作为拓扑序转移，所以外层的 $\texttt{M}$ 并不会影响内层的复制匹配，故无后效性，即答案合法。</strong>如果还是不理解可以往后看看状态理解。</p>
 <p>先考虑如果当前区间内的子串可以折叠：<br>$$<br>f_{i,j,0}&#x3D;\min{f_{i,mid,0}+1}<br>$$<br>$mid$ 是区间 $[i,j]$ 的中点。接下来考虑不折叠，老样子，枚举断点，对于 $f_{i,j,0}$，有：<br>$$<br>f_{i,j,0}&#x3D;\min{f_{i,k.0}+(j-k)}<br>$$<br>其中 $f_{i,k,0}$ 好理解，那么 $(j-k)$ 呢？在 $[i,k]$ 中，区间的开头都有一个 $\texttt{M}$，所以满足对状态的定义，但是对于 $[k+1,j]$，区间开头如果有 $\texttt{M}$，就不符合 $f_{i,j,0}$ 中区间内不存在 $\texttt{M}$ 的定义，故此。接下来看对于 $f_{i,j,1}$：<br>$$<br>f_{i,j,1}&#x3D;\min{\min{f_{i,k,0}+f_{i,k,1}}+\min{f_{k+1,j,0},f_{k+1,j,1}}+1}<br>$$<br>首先前半部分（$\min{f_{i,k,0}+f_{i,k,1}}$）好理解，那么后半部分不同于子问题 $f_{i,j,0}$ 的是，区间内是可以出现 $\texttt{M}$ 的，同时这个 加上的$1$ 也就是 $\texttt{M}$ 的长度。最后答案就是 $\min{f_{1,n,0},f_{1,n,1}}$，为什么不用减去 $1$ 是因为对于子问题 $f_{1,1,0&#x2F;1}$ 中是取不到含有 $\texttt{M}$ 的情况的，理由显然。</p>
 <p><strong>参考代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">55</span>;</span><br><span class="line"><span class="type">int</span> n, f[N][N][<span class="number">2</span>];</span><br><span class="line">string s;</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">checkSame</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r)</span> </span>&#123; <span class="comment">// 判断前后是否相同。 </span></span><br><span class="line">	<span class="keyword">if</span>((r - l + <span class="number">1</span>) % <span class="number">2</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = l; i &lt;= (l + r &gt;&gt; <span class="number">1</span>); i ++) &#123;</span><br><span class="line">		<span class="keyword">if</span>(s[i] != s[i + (r - l + <span class="number">1</span> &gt;&gt; <span class="number">1</span>)]) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	cin &gt;&gt; s;</span><br><span class="line">	n = s.<span class="built_in">size</span>(), s = <span class="string">&#x27;P&#x27;</span> + s;</span><br><span class="line">	<span class="built_in">memset</span>(f, <span class="number">0x3f</span>, <span class="keyword">sizeof</span> f);</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++) &#123;</span><br><span class="line">		f[i][i][<span class="number">0</span>] = <span class="number">1</span>, f[i][i][<span class="number">1</span>] = <span class="number">2</span>; <span class="comment">// f(i,i,1) 中含有一个 M，所以初始长度为 2。 </span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> len = <span class="number">2</span>; len &lt;= n; len ++) &#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>, j; (j = i + len - <span class="number">1</span>) &lt;= n; i ++) &#123;</span><br><span class="line">			<span class="keyword">if</span>(<span class="built_in">checkSame</span>(i, j)) &#123;</span><br><span class="line">				f[i][j][<span class="number">0</span>] = <span class="built_in">min</span>(f[i][j][<span class="number">0</span>], f[i][i + j &gt;&gt; <span class="number">1</span>][<span class="number">0</span>] + <span class="number">1</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> k = i; k &lt; j; k ++) &#123;</span><br><span class="line">				f[i][j][<span class="number">0</span>] = <span class="built_in">min</span>(f[i][j][<span class="number">0</span>], f[i][k][<span class="number">0</span>] + j - k);</span><br><span class="line">				f[i][j][<span class="number">1</span>] = <span class="built_in">min</span>(f[i][j][<span class="number">1</span>], <span class="built_in">min</span>(f[i][k][<span class="number">0</span>], f[i][k][<span class="number">1</span>]) + <span class="built_in">min</span>(f[k + <span class="number">1</span>][j][<span class="number">0</span>], f[k + <span class="number">1</span>][j][<span class="number">1</span>]) + <span class="number">1</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> cout &lt;&lt; <span class="built_in">min</span>(f[<span class="number">1</span>][n][<span class="number">0</span>], f[<span class="number">1</span>][n][<span class="number">1</span>]) &lt;&lt; endl, <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">55</span>;</span><br><span class="line"><span class="type">int</span> n, f[N][N][<span class="number">2</span>];</span><br><span class="line">string s;</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">checkSame</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r)</span> </span>&#123; <span class="comment">// 判断前后是否相同。 </span></span><br><span class="line">	<span class="keyword">if</span>((r - l + <span class="number">1</span>) % <span class="number">2</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = l; i &lt;= (l + r &gt;&gt; <span class="number">1</span>); i ++) &#123;</span><br><span class="line">		<span class="keyword">if</span>(s[i] != s[i + (r - l + <span class="number">1</span> &gt;&gt; <span class="number">1</span>)]) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	cin &gt;&gt; s;</span><br><span class="line">	n = s.<span class="built_in">size</span>(), s = <span class="string">&#x27;P&#x27;</span> + s;</span><br><span class="line">	<span class="built_in">memset</span>(f, <span class="number">0x3f</span>, <span class="keyword">sizeof</span> f);</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++) &#123;</span><br><span class="line">		f[i][i][<span class="number">0</span>] = <span class="number">1</span>, f[i][i][<span class="number">1</span>] = <span class="number">2</span>; <span class="comment">// f(i,i,1) 中含有一个 M，所以初始长度为 2。 </span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> len = <span class="number">2</span>; len &lt;= n; len ++) &#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>, j; (j = i + len - <span class="number">1</span>) &lt;= n; i ++) &#123;</span><br><span class="line">			<span class="keyword">if</span>(<span class="built_in">checkSame</span>(i, j)) &#123;</span><br><span class="line">				f[i][j][<span class="number">0</span>] = <span class="built_in">min</span>(f[i][j][<span class="number">0</span>], f[i][i + j &gt;&gt; <span class="number">1</span>][<span class="number">0</span>] + <span class="number">1</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> k = i; k &lt; j; k ++) &#123;</span><br><span class="line">				f[i][j][<span class="number">0</span>] = <span class="built_in">min</span>(f[i][j][<span class="number">0</span>], f[i][k][<span class="number">0</span>] + j - k);</span><br><span class="line">				f[i][j][<span class="number">1</span>] = <span class="built_in">min</span>(f[i][j][<span class="number">1</span>], <span class="built_in">min</span>(f[i][k][<span class="number">0</span>], f[i][k][<span class="number">1</span>]) + <span class="built_in">min</span>(f[k + <span class="number">1</span>][j][<span class="number">0</span>], f[k + <span class="number">1</span>][j][<span class="number">1</span>]) + <span class="number">1</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> cout &lt;&lt; <span class="built_in">min</span>(f[<span class="number">1</span>][n][<span class="number">0</span>], f[<span class="number">1</span>][n][<span class="number">1</span>]) &lt;&lt; endl, <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
 
 <h1 id="3-习题"><a href="#3-习题" class="headerlink" title="3 习题"></a>3 习题</h1><h2 id="3-1-对于例题-1-3-的习题"><a href="#3-1-对于例题-1-3-的习题" class="headerlink" title="3.1 对于例题 1~3 的习题"></a>3.1 对于例题 1~3 的习题</h2><ol>
-<li><p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4170">[CQOI2007] 涂色</a> </p>
+<li><p><a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4170" >[CQOI2007] 涂色 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> </p>
 <blockquote>
 <p>$f_{i,j}$ 表示 $[i,j]$ 的最优答案，其它与例题 1~3 几乎没有区别。</p>
 </blockquote>
 </li>
-<li><p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1040">[NOIP2003 提高组] 加分二叉树</a></p>
+<li><p><a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1040" >[NOIP2003 提高组] 加分二叉树 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 <blockquote>
 <p>同上。</p>
 </blockquote>
 </li>
 </ol>
 <h2 id="3-2-对于例题-4-5-的习题"><a href="#3-2-对于例题-4-5-的习题" class="headerlink" title="3.2 对于例题 4~5 的习题"></a>3.2 对于例题 4~5 的习题</h2><ol>
-<li><p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3205">[HNOI2010] 合唱队</a></p>
+<li><p><a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3205" >[HNOI2010] 合唱队 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 <blockquote>
 <p>设 $f_{i,j,0&#x2F;1}$ 表示对于合唱队 $[i,j]$ 中最后一人从左边或者右边进来的方案数。</p>
 </blockquote>
 </li>
-<li><p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/CF149D">[CF149D] Coloring Brackets</a></p>
+<li><p><a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/CF149D" >[CF149D] Coloring Brackets <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 <blockquote>
 <p>设 $f_{i,j,x,y}$ 表示对于区间 $[i,j]$ 且两端的颜色 $x$ 和 $y$ 的情况下的答案，需要分类讨论一下两端的括号是否匹配。</p>
 </blockquote>
 </li>
-<li><p><a target="_blank" rel="noopener" href="https://pintia.cn/problem-sets/91827364500/exam/problems/91827368754?type=7&page=0">[ZOJ3469] Food Delivery</a></p>
+<li><p><a class="link"   target="_blank" rel="noopener" href="https://pintia.cn/problem-sets/91827364500/exam/problems/91827368754?type=7&page=0" >[ZOJ3469] Food Delivery <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 <blockquote>
 <p>与前面讲过的关路灯类似。</p>
 </blockquote>
 </li>
-<li><p><a target="_blank" rel="noopener" href="https://vjudge.csgrandeur.cn/problem/HDU-2476">[HDU2476] String painter</a></p>
+<li><p><a class="link"   target="_blank" rel="noopener" href="https://vjudge.csgrandeur.cn/problem/HDU-2476" >[HDU2476] String painter <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 <blockquote>
-<p>可以考虑一个中间状态（类似于双向 BFS），比如空串。<em>原 OJ 的题目链接似乎炸了，故给出 Vjudge 的链接，现在已不支持提交（<a target="_blank" rel="noopener" href="https://acm.hdu.edu.cn/showproblem.php?pid=2476">原链接</a>）。</em></p>
+<p>可以考虑一个中间状态（类似于双向 BFS），比如空串。<em>原 OJ 的题目链接似乎炸了，故给出 Vjudge 的链接，现在已不支持提交（<a class="link"   target="_blank" rel="noopener" href="https://acm.hdu.edu.cn/showproblem.php?pid=2476" >原链接 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>）。</em></p>
 </blockquote>
 </li>
 </ol>
-<p>对于有代表性的、值得刷刷的题目笔者已经将自己所知道的在本文放出，更多的题目多为重复的套路，故不放出。如果有需要，读者可前往<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/">洛谷</a>、<a target="_blank" rel="noopener" href="https://www.acwing.com/">AcWing</a> 等 OJ 自行搜索题目。本文如有任何不当之处请练习笔者（Luogu uid：612663），谢谢！</p>
+<p>对于有代表性的、值得刷刷的题目笔者已经将自己所知道的在本文放出，更多的题目多为重复的套路，故不放出。如果有需要，读者可前往<a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/" >洛谷 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>、<a class="link"   target="_blank" rel="noopener" href="https://www.acwing.com/" >AcWing <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 等 OJ 自行搜索题目。本文如有任何不当之处请练习笔者（Luogu uid：612663），谢谢！</p>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/10/11/%E5%8C%BA%E9%97%B4-DP-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="clnl7xknj00009g7oa2570gwr" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-    
-  
-</article>
+        </div>
 
-
-</section>
         
-          <aside id="sidebar">
-  
-    
-
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> </li>
+        <li><strong>Author:</strong> The Redefine Team</li>
+        <li><strong>Created at
+                :</strong> 2023-10-11 11:46:14</li>
         
-          <li>
-            <a href="/2023/10/11/%E5%8C%BA%E9%97%B4-DP-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">(no title)</a>
-          </li>
+            <li>
+                <strong>Updated at
+                    :</strong> 2023-10-11 11:52:07
+            </li>
         
-      </ul>
-    </div>
-  </div>
+        <li>
+            <strong>Link:</strong> https://redefine.ohevan.com/2023/10/11/区间-DP-学习笔记/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+            This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>.
+            
 
-  
-</aside>
+        </li>
+    </ul>
+</div>
+
+            </div>
         
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2023 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+
+        
+
+        
+
+        
+
+
+        
+            <div class="comment-container">
+                <div class="comments-container pjax">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;Comments
     </div>
-  </div>
+    
+
+        
+            
+ 
+    <div id="waline"></div>
+    <script type="module"  data-swup-reload-script>
+        import { init } from '/js/libs/waline.mjs';
+
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://example.example.com',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+            });
+        }
+
+        if ('true') {
+            const loadWalineTimeout = setTimeout(() => {
+                loadWaline();
+                clearTimeout(loadWalineTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadWaline);
+        }
+        
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title"></div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%8C%BA%E9%97%B4-DP-%E7%AE%80%E4%BB%8B"><span class="nav-text">1 区间 DP 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3"><span class="nav-text">1.1 基本思想</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E4%BE%8B%E9%A2%98"><span class="nav-text">2 例题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E4%BE%8B%E9%A2%98-1-3"><span class="nav-text">2.1 例题 1~3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E4%BE%8B%E9%A2%98-4-5"><span class="nav-text">2.2 例题 4~5</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E4%B9%A0%E9%A2%98"><span class="nav-text">3 习题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%AF%B9%E4%BA%8E%E4%BE%8B%E9%A2%98-1-3-%E7%9A%84%E4%B9%A0%E9%A2%98"><span class="nav-text">3.1 对于例题 1~3 的习题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E5%AF%B9%E4%BA%8E%E4%BE%8B%E9%A2%98-4-5-%E7%9A%84%E4%B9%A0%E9%A2%98"><span class="nav-text">3.2 对于例题 4~5 的习题</span></a></li></ol></li></ol>
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">The Redefine Team</a>
+        </div>
+        
+            <script data-swup-reload-script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.5.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
 </footer>
-
+        </div>
     </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
     
 
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
 
-<script src="/js/jquery-3.6.4.min.js"></script>
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+    
+<script src="/js/libs/Swup.min.js"></script>
+
+<script src="/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+
+
+
+<script src="/js/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/utils.js" type="module"></script>
+
+<script src="/js/main.js" type="module"></script>
+
+<script src="/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/layouts/categoryList.js" type="module"></script>
+
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
 
 
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js" type="module"></script>
 
 
 
 
-<script src="/js/script.js"></script>
 
 
 
+<div class="post-scripts" data-swup-reload-script>
+    
+        
+<script src="/js/libs/anime.min.js"></script>
+
+        
+<script src="/js/tools/tocToggle.js" type="module"></script>
+
+<script src="/js/layouts/toc.js" type="module"></script>
+
+<script src="/js/plugins/tabs.js" type="module"></script>
+
+    
+</div>
 
 
-  </div>
 </body>
 </html>
