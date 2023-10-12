@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="Pretharp">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://example.com/2023/10/12/fhq-treap 学习笔记/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="本文由 Pretharp  编写，转载需注明出处，禁止用于任何形式的商业用途。 参考文献：  OI Wiki   1 FHQ-Treap 简介1.1 算法来历&amp;废话FHQ-Treap 是平衡树的一种，其称为非旋 Treap（即不用旋转的 Treap），又因该数据结构由范浩强发明，所以也被称为 FHQ-Treap。本平衡是笔者认为最好写也是最简单的一种，且其全面的功能可以替代除了 Splay">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FHQ-Treap（非旋 Treap）学习笔记">
+<meta property="og:url" content="http://example.com/2023/10/12/FHQ-Treap%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Pretharp&#39;s Blog">
+<meta property="og:description" content="本文由 Pretharp  编写，转载需注明出处，禁止用于任何形式的商业用途。 参考文献：  OI Wiki   1 FHQ-Treap 简介1.1 算法来历&amp;废话FHQ-Treap 是平衡树的一种，其称为非旋 Treap（即不用旋转的 Treap），又因该数据结构由范浩强发明，所以也被称为 FHQ-Treap。本平衡是笔者认为最好写也是最简单的一种，且其全面的功能可以替代除了 Splay">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-10-12T03:41:40.222Z">
+<meta property="article:modified_time" content="2023-10-12T03:54:01.539Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="https://cdn.luogu.com.cn/upload/image_hosting/ypjkmh9v.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.luogu.com.cn/upload/image_hosting/ypjkmh9v.png">
+    <meta name="theme-color" content="#009FAA">
+    <link rel="shortcut icon" href="https://cdn.luogu.com.cn/upload/image_hosting/ypjkmh9v.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            FHQ-Treap（非旋 Treap）学习笔记 -
+        
+        Pretharp&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/assets/build/styles.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/fonts.css">
+
+    
+<link rel="stylesheet" href="/fonts/Satoshi/satoshi.css">
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    window.config = {"hostname":"example.com","root":"/","language":"en"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#009FAA","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"https://cdn.luogu.com.cn/upload/image_hosting/bgby869k.png","dark":"https://cdn.luogu.com.cn/upload/image_hosting/bgby869k.png"},"title":"Seu.T.L. Pretharp's Blog","subtitle":{"text":[],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#d1d1b6","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.5.0","navbar":{"auto_hide":false,"color":{"left":"#3D3D3D","right":"#3D3D3D","transparency":75},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Github":{"path":"https://github.com/Pretharp","icon":"fa-brands fa-github"},"Luogu":{"path":"https://www.luogu.com.cn/user/612663","icon":"fa-solid fa-circle-user"},"Portals":{"path":"/links/","icon":"fa-solid fa-link"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":null},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="swup-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+                <a class="logo-image" href="/">
+                    <img src="https://cdn.luogu.com.cn/upload/image_hosting/ypjkmh9v.png">
+                </a>
+            
+            <a class="logo-title" href="/">
+                
+                Pretharp&#39;s Blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        HOME
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    target="_blank" rel="noopener" href="https://github.com/Pretharp"  >
+                                    
+                                        
+                                            <i class="fa-brands fa-github"></i>
+                                        
+                                        GITHUB
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    target="_blank" rel="noopener" href="https://www.luogu.com.cn/user/612663"  >
+                                    
+                                        
+                                            <i class="fa-solid fa-circle-user"></i>
+                                        
+                                        LUOGU
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/links/"  >
+                                    
+                                        
+                                            <i class="fa-solid fa-link"></i>
+                                        
+                                        PORTALS
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer w-full absolute top-0 left-0 bg-background-color">
+        <ul class="drawer-navbar-list flex flex-col justify-start items-center">
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                HOME
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        target="_blank" rel="noopener" href="https://github.com/Pretharp"  >
+                             
+                                
+                                    <i class="fa-brands fa-github"></i>
+                                
+                                GITHUB
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        target="_blank" rel="noopener" href="https://www.luogu.com.cn/user/612663"  >
+                             
+                                
+                                    <i class="fa-solid fa-circle-user"></i>
+                                
+                                LUOGU
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/links/"  >
+                             
+                                
+                                    <i class="fa-solid fa-link"></i>
+                                
+                                PORTALS
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            
+                <h1 class="article-title-regular">FHQ-Treap（非旋 Treap）学习笔记</h1>
+            
+            </div>
+            
+                    
+        
+        
+            <div class="article-header flex flex-row gap-2 items-center">
+                <div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+                    <img src="https://cdn.luogu.com.cn/upload/image_hosting/ypjkmh9v.png">
+                </div>
+                <div class="info flex flex-col justify-between">
+                    <div class="author flex items-center">
+                        <span class="name text-default-text-color text-lg font-semibold">Pretharp</span>
+                        
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv1</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-10-12 11:41:40</span>
+        <span class="mobile">2023-10-12 11:41:40</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-10-12 11:54:01</span>
+            <span class="mobile">2023-10-12 11:54:01</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body">
+            <p><strong>本文由 <a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/user/612663" >Pretharp <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 编写，转载需注明出处，禁止用于任何形式的商业用途。</strong></p>
+<p><strong>参考文献：</strong></p>
+<ul>
+<li><a class="link"   target="_blank" rel="noopener" href="https://oi-wiki.org/ds/treap/" >OI Wiki <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+</ul>
+<h1 id="1-FHQ-Treap-简介"><a href="#1-FHQ-Treap-简介" class="headerlink" title="1 FHQ-Treap 简介"></a>1 FHQ-Treap 简介</h1><h2 id="1-1-算法来历-amp-废话"><a href="#1-1-算法来历-amp-废话" class="headerlink" title="1.1 算法来历&amp;废话"></a>1.1 算法来历&amp;废话</h2><p>FHQ-Treap 是平衡树的一种，其称为非旋 Treap（即不用旋转的 Treap），又因该数据结构由范浩强发明，所以也被称为 FHQ-Treap。本平衡是笔者认为最好写也是最简单的一种，且其全面的功能可以替代除了 Splay 以外大部分平衡树，如果不理解 Treap 中抽象的 zig 和 zag，可以先学学 FHQ-Treap。但是本篇是建立于读者有一定平衡树基础的情况下而写，如果读者完全不知道平衡树是什么可以先读读 Treap 除了 zig 和 zag 的部分。</p>
+<h2 id="1-2-基本性质"><a href="#1-2-基本性质" class="headerlink" title="1.2 基本性质"></a>1.2 基本性质</h2><p>Treap 是 Tree（树）和 Heap（堆）的组合词汇，因此，这种数据结构有着堆的性质：对于任何一个结点，其权值大于其左儿子（若有）的权值，小于其右儿子（若有）的权值。</p>
+<p>除此之外，你需要维护以下东西：</p>
+<ul>
+<li>每个结点的权值（$val$），子树大小（$siz$），左右儿子（$ls \&amp; rs$）编号以及其分配的一个随机权值（$wei$）。</li>
+</ul>
+<h1 id="2-基本操作"><a href="#2-基本操作" class="headerlink" title="2 基本操作"></a>2 基本操作</h1><h2 id="2-1-分裂（split）"><a href="#2-1-分裂（split）" class="headerlink" title="2.1 分裂（split）"></a>2.1 分裂（split）</h2><p>这是 FHQ-Treap 的两个核心操作之一。分裂，就是以一个键值将平衡树分裂为两颗，通常情况下分裂后一颗子树的权值小于键值，另一颗则大于等于键值。操作具体如下：</p>
+<ol>
+<li>若当前结点权值小于键值，则继续分裂其右儿子，将其右儿子小于键值的一部分作为该结点的新右儿子，反之亦然。</li>
+<li>重复上述操作，直到当前子树为空。</li>
+</ol>
+<p>代码如下：</p>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">pii <span class="title">split</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> key)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!x) &#123;</span><br><span class="line">		<span class="keyword">return</span> &#123;<span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line">	&#125;	</span><br><span class="line">	<span class="keyword">if</span>(tr[x].val &lt; key) &#123;</span><br><span class="line">		pii t = <span class="built_in">split</span>(tr[x].rs, key);</span><br><span class="line">		tr[x].rs = t.fir, <span class="built_in">update</span>(x); <span class="comment">// update 用于更新结点子树大小。</span></span><br><span class="line">		<span class="keyword">return</span> &#123;x, t.sec&#125;;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		pii t = <span class="built_in">split</span>(tr[x].ls, key);</span><br><span class="line">		tr[x].ls = t.sec, <span class="built_in">update</span>(x);</span><br><span class="line">		<span class="keyword">return</span> &#123;t.fir, x&#125;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<h2 id="2-2-合并（merge）"><a href="#2-2-合并（merge）" class="headerlink" title="2.2 合并（merge）"></a>2.2 合并（merge）</h2><p>另一个核心操作。为了保证树的深度一定，我们将会以每个结点的随机权值合并，代码如下：</p>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">merge</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!x || !y) &#123;</span><br><span class="line">		<span class="keyword">return</span> x + y;</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="keyword">if</span>(tr[x].wei &lt; tr[y].wei) &#123;</span><br><span class="line">		tr[x].rs = <span class="built_in">merge</span>(tr[x].rs, y), <span class="built_in">update</span>(x);</span><br><span class="line">		<span class="keyword">return</span> x;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		tr[y].ls = <span class="built_in">merge</span>(x, tr[y].ls), <span class="built_in">update</span>(y);</span><br><span class="line">		<span class="keyword">return</span> y;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<h2 id="2-3-插入（insert"><a href="#2-3-插入（insert" class="headerlink" title="2.3 插入（insert)"></a>2.3 插入（insert)</h2><p>新建一个结点，初始化即可，代码如下：</p>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">insert</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">	++ idx;</span><br><span class="line">	tr[idx].siz = <span class="number">1</span>, tr[idx].val = x, tr[idx].wei = <span class="built_in">getRand</span>(); <span class="comment">// getRand() 用于得到一个随机数。</span></span><br><span class="line">	pii t = <span class="built_in">split</span>(root, x);</span><br><span class="line">	<span class="comment">/* return */</span> root = <span class="built_in">merge</span>(<span class="built_in">merge</span>(t.fir, idx), t.sec); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<h2 id="2-4-删除（erase）"><a href="#2-4-删除（erase）" class="headerlink" title="2.4 删除（erase）"></a>2.4 删除（erase）</h2><p>我们可以以要删除的值为键值，分裂出两颗子树，再将大于键值的子树以键值加一分裂，这样就分裂出来了三颗子树，其中权值分别小于键值、等于键值、大于键值。我们将等于键值的子树的左右儿子合并，再依次合并回来就达到了删除的效果。代码如下：</p>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">erase</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">	pii t1 = <span class="built_in">split</span>(root, x), t2 = <span class="built_in">split</span>(t1.sec, x + <span class="number">1</span>);</span><br><span class="line">	t2.fir = <span class="built_in">merge</span>(tr[t2.fir].ls, tr[t2.fir].rs);</span><br><span class="line">	root = <span class="built_in">merge</span>(t1.fir, <span class="built_in">merge</span>(t2.fir, t2.sec));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<h2 id="2-5-通过权值查找排名（getRank）"><a href="#2-5-通过权值查找排名（getRank）" class="headerlink" title="2.5 通过权值查找排名（getRank）"></a>2.5 通过权值查找排名（getRank）</h2><p>以要找的权值作为键值分裂，小于键值的子树大小加一就是答案，代码如下：</p>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">getRank</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">	pii t = <span class="built_in">split</span>(root, x);</span><br><span class="line">	<span class="type">int</span> res = tr[t.fir].siz + <span class="number">1</span>;</span><br><span class="line">	root = <span class="built_in">merge</span>(t.fir, t.sec);</span><br><span class="line">	<span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<h2 id="2-6-通过排名找权值（getVal）"><a href="#2-6-通过排名找权值（getVal）" class="headerlink" title="2.6 通过排名找权值（getVal）"></a>2.6 通过排名找权值（getVal）</h2><p>类似于 Treap 的查找方式，流程如下：</p>
+<ul>
+<li>若当前结点左子树大小大于等于排名，则递归左子树。</li>
+<li>若当前结点左子树大小加一小于（也就是加上根节点的大小）排名，则在右子树中寻找第 $rank-siz(lson)-1$ 大的结点。</li>
+<li>若当前结点左子树大小加一等于排名，则答案就是根节点。</li>
+</ul>
+<p>考虑到循环写法也很好写，所以采用了常数较小的循环写法，代码如下：</p>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">getVal</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> p = root;</span><br><span class="line">	<span class="keyword">while</span>(p) &#123;</span><br><span class="line">		<span class="keyword">if</span>(tr[tr[p].ls].siz + <span class="number">1</span> == x) &#123;</span><br><span class="line">			<span class="keyword">return</span> tr[p].val;</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span>(tr[tr[p].ls].siz &gt;= x) &#123;</span><br><span class="line">			p = tr[p].ls;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			x -= tr[tr[p].ls].siz + <span class="number">1</span>;</span><br><span class="line">			p = tr[p].rs;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<h2 id="2-7-查找前驱（lstVal）"><a href="#2-7-查找前驱（lstVal）" class="headerlink" title="2.7 查找前驱（lstVal）"></a>2.7 查找前驱（lstVal）</h2><p>比要找的权值的排名少一的数就是答案，代码如下：</p>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">lstVal</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">getVal</span>(<span class="built_in">getRank</span>(x) - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<h2 id="2-8-查找后继（nxtVal）"><a href="#2-8-查找后继（nxtVal）" class="headerlink" title="2.8 查找后继（nxtVal）"></a>2.8 查找后继（nxtVal）</h2><p>考虑带需要当前值可能不止一个，按照查找前驱的方法找到的返回值可能等同于自己。不过，如果我们要寻找 $x+1$，这个值可能不存在，所以我们找到的就会是第一个大于等于 $x+1$ 的值，也就是后继。代码如下：</p>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">nxtVal</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">getVal</span>(<span class="built_in">getRank</span>(x + <span class="number">1</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<h1 id="3-例题"><a href="#3-例题" class="headerlink" title="3 例题"></a>3 例题</h1><h2 id="3-1-例题1"><a href="#3-1-例题1" class="headerlink" title="3.1 例题1"></a>3.1 例题1</h2><p><strong>例题 1：<a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P6136" >[洛谷 P6136] 【模板】普通平衡树（数据加强版） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+<p><strong>题目大意：</strong></p>
+<blockquote>
+<p>你需要维护一个数据结构满足本文上述操作。</p>
+</blockquote>
+<p><strong>参考代码：</strong></p>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> pii pair<span class="string">&lt;int, int&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> fir first</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sec second</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">2e6</span> + <span class="number">5</span>;</span><br><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="keyword">namespace</span> FHQTreap &#123;</span><br><span class="line">	<span class="meta">#<span class="keyword">define</span> ttFHQT FHQTreap</span></span><br><span class="line">	<span class="type">const</span> <span class="type">int</span> S = (<span class="number">1e4</span> + <span class="number">5e4</span> + <span class="number">1919810</span>) * <span class="number">233</span> + <span class="number">19</span>;</span><br><span class="line">	<span class="keyword">struct</span> <span class="title class_">FHQTreap</span> &#123;</span><br><span class="line">		<span class="keyword">private</span>:</span><br><span class="line">		<span class="keyword">struct</span> <span class="title class_">Tree</span> &#123;</span><br><span class="line">			<span class="type">int</span> val, wei, ls, rs, siz;</span><br><span class="line">		&#125; tr[N];</span><br><span class="line">		<span class="type">int</span> idx, root = <span class="number">0</span>, seed = <span class="number">1</span>;</span><br><span class="line">		<span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">			tr[x].siz = tr[tr[x].ls].siz + tr[tr[x].rs].siz + <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="function"><span class="type">int</span> <span class="title">merge</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">if</span>(!x || !y) &#123;</span><br><span class="line">				<span class="keyword">return</span> x + y;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(tr[x].wei &lt; tr[y].wei) &#123;</span><br><span class="line">				tr[x].rs = <span class="built_in">merge</span>(tr[x].rs, y), <span class="built_in">update</span>(x);</span><br><span class="line">				<span class="keyword">return</span> x;</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				tr[y].ls = <span class="built_in">merge</span>(x, tr[y].ls), <span class="built_in">update</span>(y);</span><br><span class="line">				<span class="keyword">return</span> y;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="function">pii <span class="title">split</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> key)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">if</span>(!x) &#123;</span><br><span class="line">				<span class="keyword">return</span> &#123;<span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(tr[x].val &lt; key) &#123;</span><br><span class="line">				pii t = <span class="built_in">split</span>(tr[x].rs, key);</span><br><span class="line">				tr[x].rs = t.fir, <span class="built_in">update</span>(x);</span><br><span class="line">				<span class="keyword">return</span> &#123;x, t.sec&#125;;</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				pii t = <span class="built_in">split</span>(tr[x].ls, key);</span><br><span class="line">				tr[x].ls = t.sec, <span class="built_in">update</span>(x);</span><br><span class="line">				<span class="keyword">return</span> &#123;t.fir, x&#125;;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="function"><span class="type">int</span> <span class="title">getRand</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			<span class="keyword">return</span> seed *= S;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">public</span>:</span><br><span class="line">		<span class="function"><span class="type">void</span> <span class="title">insert</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">			idx ++;</span><br><span class="line">			tr[idx].val = x, tr[idx].siz = <span class="number">1</span>, tr[idx].wei = <span class="built_in">getRand</span>();</span><br><span class="line">			pii t = <span class="built_in">split</span>(root, x);</span><br><span class="line">			root = <span class="built_in">merge</span>(<span class="built_in">merge</span>(t.fir, idx), t.sec);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="function"><span class="type">void</span> <span class="title">erase</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">			pii t1 = <span class="built_in">split</span>(root, x), t2 = <span class="built_in">split</span>(t1.sec, x + <span class="number">1</span>);</span><br><span class="line">			t2.fir = <span class="built_in">merge</span>(tr[t2.fir].ls, tr[t2.fir].rs);</span><br><span class="line">			root = <span class="built_in">merge</span>(t1.fir, <span class="built_in">merge</span>(t2.fir, t2.sec));</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="function"><span class="type">int</span> <span class="title">getRank</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">			pii t = <span class="built_in">split</span>(root, x);</span><br><span class="line">			<span class="type">int</span> res = tr[t.fir].siz + <span class="number">1</span>;</span><br><span class="line">			root = <span class="built_in">merge</span>(t.fir, t.sec);</span><br><span class="line">			<span class="keyword">return</span> res;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="function"><span class="type">int</span> <span class="title">getVal</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">			<span class="type">int</span> p = root;</span><br><span class="line">			<span class="keyword">while</span>(p) &#123;</span><br><span class="line">				<span class="keyword">if</span>(tr[tr[p].ls].siz + <span class="number">1</span> == x) &#123;</span><br><span class="line">					<span class="keyword">return</span> tr[p].val;</span><br><span class="line">				&#125; <span class="keyword">else</span> <span class="keyword">if</span>(tr[tr[p].ls].siz &gt;= x) &#123;</span><br><span class="line">					p = tr[p].ls;</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					x -= tr[tr[p].ls].siz + <span class="number">1</span>;</span><br><span class="line">					p = tr[p].rs;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="function"><span class="type">int</span> <span class="title">lstVal</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="built_in">getVal</span>(<span class="built_in">getRank</span>(x) - <span class="number">1</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="function"><span class="type">int</span> <span class="title">nxtVal</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="built_in">getVal</span>(<span class="built_in">getRank</span>(x + <span class="number">1</span>));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br><span class="line">ttFHQT::ttFHQT fhq;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	ios_base::<span class="built_in">sync_with_stdio</span>(<span class="number">0</span>);</span><br><span class="line">	cin.<span class="built_in">tie</span>(<span class="number">0</span>), cout.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>, x; i &lt;= n; i ++) &#123;</span><br><span class="line">		cin &gt;&gt; x, fhq.<span class="built_in">insert</span>(x);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">int</span> ans = <span class="number">0</span>, lst = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(m --) &#123;</span><br><span class="line">		<span class="type">int</span> op, x;</span><br><span class="line">		cin &gt;&gt; op &gt;&gt; x;</span><br><span class="line">		x ^= lst;</span><br><span class="line">		<span class="keyword">if</span>(op == <span class="number">1</span>) &#123;</span><br><span class="line">			fhq.<span class="built_in">insert</span>(x);</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span>(op == <span class="number">2</span>) &#123;</span><br><span class="line">			fhq.<span class="built_in">erase</span>(x);</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span>(op == <span class="number">3</span>) &#123;</span><br><span class="line">			ans ^= (lst = fhq.<span class="built_in">getRank</span>(x));</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span>(op == <span class="number">4</span>) &#123;</span><br><span class="line">			ans ^= (lst = fhq.<span class="built_in">getVal</span>(x));</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span>(op == <span class="number">5</span>) &#123;</span><br><span class="line">			ans ^= (lst = fhq.<span class="built_in">lstVal</span>(x));</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			ans ^= (lst = fhq.<span class="built_in">nxtVal</span>(x));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> cout &lt;&lt; ans &lt;&lt; endl, <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> FHQ-Treap（非旋 Treap）学习笔记</li>
+        <li><strong>Author:</strong> Pretharp</li>
+        <li><strong>Created at
+                :</strong> 2023-10-12 11:41:40</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2023-10-12 11:54:01
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://pretharp.github.io/2023/10/12/FHQ-Treap 学习笔记/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+            This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>.
+            
+
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                        rel="prev"
+                        href="/2023/10/12/%E6%A0%91%E4%B8%8A%E5%90%AF%E5%8F%91%E5%BC%8F%E5%90%88%E5%B9%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">树上启发式合并学习笔记</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                        rel="next"
+                        href="/2023/10/11/%E5%8C%BA%E9%97%B4%20DP%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">区间 DP 学习笔记</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+
+        
+            <div class="comment-container">
+                <div class="comments-container pjax">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;Comments
+    </div>
+    
+
+        
+            
+ 
+    <div id="waline"></div>
+    <script type="module"  data-swup-reload-script>
+        import { init } from '/js/libs/waline.mjs';
+
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://example.example.com',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+            });
+        }
+
+        if ('true') {
+            const loadWalineTimeout = setTimeout(() => {
+                loadWaline();
+                clearTimeout(loadWalineTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadWaline);
+        }
+        
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">FHQ-Treap（非旋 Treap）学习笔记</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-FHQ-Treap-%E7%AE%80%E4%BB%8B"><span class="nav-text">1 FHQ-Treap 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E7%AE%97%E6%B3%95%E6%9D%A5%E5%8E%86-amp-%E5%BA%9F%E8%AF%9D"><span class="nav-text">1.1 算法来历&amp;废话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%9F%BA%E6%9C%AC%E6%80%A7%E8%B4%A8"><span class="nav-text">1.2 基本性质</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-text">2 基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E5%88%86%E8%A3%82%EF%BC%88split%EF%BC%89"><span class="nav-text">2.1 分裂（split）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E5%90%88%E5%B9%B6%EF%BC%88merge%EF%BC%89"><span class="nav-text">2.2 合并（merge）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E6%8F%92%E5%85%A5%EF%BC%88insert"><span class="nav-text">2.3 插入（insert)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E5%88%A0%E9%99%A4%EF%BC%88erase%EF%BC%89"><span class="nav-text">2.4 删除（erase）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-%E9%80%9A%E8%BF%87%E6%9D%83%E5%80%BC%E6%9F%A5%E6%89%BE%E6%8E%92%E5%90%8D%EF%BC%88getRank%EF%BC%89"><span class="nav-text">2.5 通过权值查找排名（getRank）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-%E9%80%9A%E8%BF%87%E6%8E%92%E5%90%8D%E6%89%BE%E6%9D%83%E5%80%BC%EF%BC%88getVal%EF%BC%89"><span class="nav-text">2.6 通过排名找权值（getVal）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7-%E6%9F%A5%E6%89%BE%E5%89%8D%E9%A9%B1%EF%BC%88lstVal%EF%BC%89"><span class="nav-text">2.7 查找前驱（lstVal）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-8-%E6%9F%A5%E6%89%BE%E5%90%8E%E7%BB%A7%EF%BC%88nxtVal%EF%BC%89"><span class="nav-text">2.8 查找后继（nxtVal）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E4%BE%8B%E9%A2%98"><span class="nav-text">3 例题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E4%BE%8B%E9%A2%981"><span class="nav-text">3.1 例题1</span></a></li></ol></li></ol>
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">I Love Mijacs Forever!</div>
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">Pretharp</a>
+        </div>
+        
+            <script data-swup-reload-script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.5.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+    
+<script src="/js/libs/Swup.min.js"></script>
+
+<script src="/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+
+
+
+<script src="/js/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/utils.js" type="module"></script>
+
+<script src="/js/main.js" type="module"></script>
+
+<script src="/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/layouts/categoryList.js" type="module"></script>
+
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+<div class="post-scripts" data-swup-reload-script>
+    
+        
+<script src="/js/libs/anime.min.js"></script>
+
+        
+<script src="/js/tools/tocToggle.js" type="module"></script>
+
+<script src="/js/layouts/toc.js" type="module"></script>
+
+<script src="/js/plugins/tabs.js" type="module"></script>
+
+    
+</div>
+
+
+</body>
+</html>
