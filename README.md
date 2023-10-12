@@ -1,2 +1,4 @@
 # Pretharp.github.io
-My blog is here
+
+Welcome, this is my blog in github.
+[LINK](pretharp.github.io)
