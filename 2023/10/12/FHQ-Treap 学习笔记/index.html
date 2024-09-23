@@ -18,15 +18,15 @@
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta name="description" content="本文由 Pretharp  编写，转载需注明出处，禁止用于任何形式的商业用途。 参考文献：  OI Wiki    1 FHQ-Treap 简介  1.1 算法来历&amp;废话 FHQ-Treap 是平衡树的一种，其称为非旋 Treap（即不用旋转的 Treap），又因该数据结构由范浩强发明，所以也被称为 FHQ-Treap。本平衡是笔者认为最好写也是最简单的一种，且其全面的功能可以替代除了 S">
+        <meta name="description" content="本文由 Pretharp  编写，转载需注明出处，禁止用于任何形式的商业用途。 1 引入1.1 算法相关FHQ-Treap 是平衡树的一种，其称为非旋 Treap（即不用旋转的 Treap），又因该数据结构由范浩强发明，所以也被称为 FHQ-Treap。本平衡是笔者认为最好写也是最简单的一种，且其全面的功能可以替代除了 Splay 以外大部分平衡树，如果不理解 Treap 中抽象的 zig 和 z">
 <meta property="og:type" content="article">
-<meta property="og:title" content="FHQ-Treap（非旋 Treap）学习笔记">
+<meta property="og:title" content="Pretharp&#39;s Blog">
 <meta property="og:url" content="http://example.com/2023/10/12/FHQ-Treap%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Pretharp&#39;s Blog">
-<meta property="og:description" content="本文由 Pretharp  编写，转载需注明出处，禁止用于任何形式的商业用途。 参考文献：  OI Wiki    1 FHQ-Treap 简介  1.1 算法来历&amp;废话 FHQ-Treap 是平衡树的一种，其称为非旋 Treap（即不用旋转的 Treap），又因该数据结构由范浩强发明，所以也被称为 FHQ-Treap。本平衡是笔者认为最好写也是最简单的一种，且其全面的功能可以替代除了 S">
+<meta property="og:description" content="本文由 Pretharp  编写，转载需注明出处，禁止用于任何形式的商业用途。 1 引入1.1 算法相关FHQ-Treap 是平衡树的一种，其称为非旋 Treap（即不用旋转的 Treap），又因该数据结构由范浩强发明，所以也被称为 FHQ-Treap。本平衡是笔者认为最好写也是最简单的一种，且其全面的功能可以替代除了 Splay 以外大部分平衡树，如果不理解 Treap 中抽象的 zig 和 z">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-10-12T03:41:40.222Z">
-<meta property="article:modified_time" content="2023-10-12T03:54:01.539Z">
+<meta property="article:modified_time" content="2024-09-23T08:41:45.882Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
     
@@ -39,8 +39,6 @@
     <!--- Page Info-->
     
     <title>
-        
-            FHQ-Treap（非旋 Treap）学习笔记 -
         
         Pretharp&#39;s Blog
     </title>
@@ -308,7 +306,7 @@
 
         <div class="article-title">
             
-                <h1 class="article-title-regular">FHQ-Treap（非旋 Treap）学习笔记</h1>
+                <h1 class="article-title-regular"></h1>
             
             </div>
             
@@ -337,8 +335,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-10-12 11:54:01</span>
-            <span class="mobile">2023-10-12 11:54:01</span>
+            <span class="desktop">2024-09-23 16:41:45</span>
+            <span class="mobile">2024-09-23 16:41:45</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -366,58 +364,40 @@
 
         <div class="article-content markdown-body">
             <p><strong>本文由 <a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/user/612663" >Pretharp <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 编写，转载需注明出处，禁止用于任何形式的商业用途。</strong></p>
-<p><strong>参考文献：</strong></p>
-<ul>
-<li><a class="link"   target="_blank" rel="noopener" href="https://oi-wiki.org/ds/treap/" >OI Wiki <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
-</ul>
-<h1 id="1-fhq-treap-简介"><a class="markdownIt-Anchor" href="#1-fhq-treap-简介"></a> 1 FHQ-Treap 简介</h1>
-<h2 id="11-算法来历废话"><a class="markdownIt-Anchor" href="#11-算法来历废话"></a> 1.1 算法来历&amp;废话</h2>
-<p>FHQ-Treap 是平衡树的一种，其称为非旋 Treap（即不用旋转的 Treap），又因该数据结构由范浩强发明，所以也被称为 FHQ-Treap。本平衡是笔者认为最好写也是最简单的一种，且其全面的功能可以替代除了 Splay 以外大部分平衡树，如果不理解 Treap 中抽象的 zig 和 zag，可以先学学 FHQ-Treap。但是本篇是建立于读者有一定平衡树基础的情况下而写，如果读者完全不知道平衡树是什么可以先读读 Treap 除了 zig 和 zag 的部分。</p>
-<h2 id="12-基本性质"><a class="markdownIt-Anchor" href="#12-基本性质"></a> 1.2 基本性质</h2>
-<p>Treap 是 Tree（树）和 Heap（堆）的组合词汇，因此，这种数据结构有着堆的性质：对于任何一个结点，其权值大于其左儿子（若有）的权值，小于其右儿子（若有）的权值。</p>
+<h1 id="1-引入"><a href="#1-引入" class="headerlink" title="1 引入"></a>1 引入</h1><h2 id="1-1-算法相关"><a href="#1-1-算法相关" class="headerlink" title="1.1 算法相关"></a>1.1 算法相关</h2><p>FHQ-Treap 是平衡树的一种，其称为非旋 Treap（即不用旋转的 Treap），又因该数据结构由范浩强发明，所以也被称为 FHQ-Treap。本平衡是笔者认为最好写也是最简单的一种，且其全面的功能可以替代除了 Splay 以外大部分平衡树，如果不理解 Treap 中抽象的 zig 和 zag，可以先学学 FHQ-Treap。但是本篇是建立于读者有一定平衡树基础的情况下而写，如果读者完全不知道平衡树是什么可以先读读 Treap 除了 zig 和 zag 的部分。</p>
+<h1 id="2-算法讲解"><a href="#2-算法讲解" class="headerlink" title="2 算法讲解"></a>2 算法讲解</h1><h2 id="2-1-基本性质"><a href="#2-1-基本性质" class="headerlink" title="2.1 基本性质"></a>2.1 基本性质</h2><p>Treap 是 Tree（树）和 Heap（堆）的组合词汇，因此，这种数据结构有着堆的性质：对于任何一个结点，其权值大于其左儿子（若有）的权值，小于其右儿子（若有）的权值。</p>
 <p>除此之外，你需要维护以下东西：</p>
 <ul>
-<li>每个结点的权值（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mi>a</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">val</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span></span></span></span>），子树大小（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>i</mi><mi>z</mi></mrow><annotation encoding="application/x-tex">siz</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span></span></span></span>），左右儿子（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>s</mi><mi mathvariant="normal">&amp;</mi><mi>r</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">ls \&amp; rs</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">s</span><span class="mord">&amp;</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">s</span></span></span></span>）编号以及其分配的一个随机权值（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mi>e</mi><mi>i</mi></mrow><annotation encoding="application/x-tex">wei</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mord mathnormal">e</span><span class="mord mathnormal">i</span></span></span></span>）。</li>
+<li>每个结点的权值（$val$），子树大小（$siz$），左右儿子（$ls \&amp; rs$）编号以及其分配的一个随机权值（$wei$）。</li>
 </ul>
-<h1 id="2-基本操作"><a class="markdownIt-Anchor" href="#2-基本操作"></a> 2 基本操作</h1>
-<h2 id="21-分裂split"><a class="markdownIt-Anchor" href="#21-分裂split"></a> 2.1 分裂（split）</h2>
-<p>这是 FHQ-Treap 的两个核心操作之一。分裂，就是以一个键值将平衡树分裂为两颗，通常情况下分裂后一颗子树的权值小于键值，另一颗则大于等于键值。操作具体如下：</p>
+<h2 id="2-2-分裂（split）"><a href="#2-2-分裂（split）" class="headerlink" title="2.2 分裂（split）"></a>2.2 分裂（split）</h2><p>这是 FHQ-Treap 的两个核心操作之一。分裂，就是以一个键值将平衡树分裂为两颗，通常情况下分裂后一颗子树的权值小于键值，另一颗则大于等于键值。操作具体如下：</p>
 <ol>
 <li>若当前结点权值小于键值，则继续分裂其右儿子，将其右儿子小于键值的一部分作为该结点的新右儿子，反之亦然。</li>
 <li>重复上述操作，直到当前子树为空。</li>
 </ol>
 <p>代码如下：</p>
 <div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">pii <span class="title">split</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> key)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!x) &#123;</span><br><span class="line">		<span class="keyword">return</span> &#123;<span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line">	&#125;	</span><br><span class="line">	<span class="keyword">if</span>(tr[x].val &lt; key) &#123;</span><br><span class="line">		pii t = <span class="built_in">split</span>(tr[x].rs, key);</span><br><span class="line">		tr[x].rs = t.fir, <span class="built_in">update</span>(x); <span class="comment">// update 用于更新结点子树大小。</span></span><br><span class="line">		<span class="keyword">return</span> &#123;x, t.sec&#125;;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		pii t = <span class="built_in">split</span>(tr[x].ls, key);</span><br><span class="line">		tr[x].ls = t.sec, <span class="built_in">update</span>(x);</span><br><span class="line">		<span class="keyword">return</span> &#123;t.fir, x&#125;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-<h2 id="22-合并merge"><a class="markdownIt-Anchor" href="#22-合并merge"></a> 2.2 合并（merge）</h2>
-<p>另一个核心操作。为了保证树的深度一定，我们将会以每个结点的随机权值合并，代码如下：</p>
+<h2 id="2-3-合并（merge）"><a href="#2-3-合并（merge）" class="headerlink" title="2.3 合并（merge）"></a>2.3 合并（merge）</h2><p>另一个核心操作。为了保证树的深度一定，我们将会以每个结点的随机权值合并，代码如下：</p>
 <div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">merge</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!x || !y) &#123;</span><br><span class="line">		<span class="keyword">return</span> x + y;</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="keyword">if</span>(tr[x].wei &lt; tr[y].wei) &#123;</span><br><span class="line">		tr[x].rs = <span class="built_in">merge</span>(tr[x].rs, y), <span class="built_in">update</span>(x);</span><br><span class="line">		<span class="keyword">return</span> x;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		tr[y].ls = <span class="built_in">merge</span>(x, tr[y].ls), <span class="built_in">update</span>(y);</span><br><span class="line">		<span class="keyword">return</span> y;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-<h2 id="23-插入insert"><a class="markdownIt-Anchor" href="#23-插入insert"></a> 2.3 插入（insert)</h2>
-<p>新建一个结点，初始化即可，代码如下：</p>
+<h2 id="2-4-插入（insert"><a href="#2-4-插入（insert" class="headerlink" title="2.4 插入（insert)"></a>2.4 插入（insert)</h2><p>新建一个结点，初始化即可，代码如下：</p>
 <div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">insert</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">	++ idx;</span><br><span class="line">	tr[idx].siz = <span class="number">1</span>, tr[idx].val = x, tr[idx].wei = <span class="built_in">getRand</span>(); <span class="comment">// getRand() 用于得到一个随机数。</span></span><br><span class="line">	pii t = <span class="built_in">split</span>(root, x);</span><br><span class="line">	<span class="comment">/* return */</span> root = <span class="built_in">merge</span>(<span class="built_in">merge</span>(t.fir, idx), t.sec); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-<h2 id="24-删除erase"><a class="markdownIt-Anchor" href="#24-删除erase"></a> 2.4 删除（erase）</h2>
-<p>我们可以以要删除的值为键值，分裂出两颗子树，再将大于键值的子树以键值加一分裂，这样就分裂出来了三颗子树，其中权值分别小于键值、等于键值、大于键值。我们将等于键值的子树的左右儿子合并，再依次合并回来就达到了删除的效果。代码如下：</p>
+<h2 id="2-5-删除（erase）"><a href="#2-5-删除（erase）" class="headerlink" title="2.5 删除（erase）"></a>2.5 删除（erase）</h2><p>我们可以以要删除的值为键值，分裂出两颗子树，再将大于键值的子树以键值加一分裂，这样就分裂出来了三颗子树，其中权值分别小于键值、等于键值、大于键值。我们将等于键值的子树的左右儿子合并，再依次合并回来就达到了删除的效果。代码如下：</p>
 <div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">erase</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">	pii t1 = <span class="built_in">split</span>(root, x), t2 = <span class="built_in">split</span>(t1.sec, x + <span class="number">1</span>);</span><br><span class="line">	t2.fir = <span class="built_in">merge</span>(tr[t2.fir].ls, tr[t2.fir].rs);</span><br><span class="line">	root = <span class="built_in">merge</span>(t1.fir, <span class="built_in">merge</span>(t2.fir, t2.sec));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-<h2 id="25-通过权值查找排名getrank"><a class="markdownIt-Anchor" href="#25-通过权值查找排名getrank"></a> 2.5 通过权值查找排名（getRank）</h2>
-<p>以要找的权值作为键值分裂，小于键值的子树大小加一就是答案，代码如下：</p>
+<h2 id="2-6-通过权值查找排名（getRank）"><a href="#2-6-通过权值查找排名（getRank）" class="headerlink" title="2.6 通过权值查找排名（getRank）"></a>2.6 通过权值查找排名（getRank）</h2><p>以要找的权值作为键值分裂，小于键值的子树大小加一就是答案，代码如下：</p>
 <div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">getRank</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">	pii t = <span class="built_in">split</span>(root, x);</span><br><span class="line">	<span class="type">int</span> res = tr[t.fir].siz + <span class="number">1</span>;</span><br><span class="line">	root = <span class="built_in">merge</span>(t.fir, t.sec);</span><br><span class="line">	<span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-<h2 id="26-通过排名找权值getval"><a class="markdownIt-Anchor" href="#26-通过排名找权值getval"></a> 2.6 通过排名找权值（getVal）</h2>
-<p>类似于 Treap 的查找方式，流程如下：</p>
+<h2 id="2-7-通过排名找权值（getVal）"><a href="#2-7-通过排名找权值（getVal）" class="headerlink" title="2.7 通过排名找权值（getVal）"></a>2.7 通过排名找权值（getVal）</h2><p>类似于 Treap 的查找方式，流程如下：</p>
 <ul>
 <li>若当前结点左子树大小大于等于排名，则递归左子树。</li>
-<li>若当前结点左子树大小加一小于（也就是加上根节点的大小）排名，则在右子树中寻找第 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>a</mi><mi>n</mi><mi>k</mi><mo>−</mo><mi>s</mi><mi>i</mi><mi>z</mi><mo stretchy="false">(</mo><mi>l</mi><mi>s</mi><mi>o</mi><mi>n</mi><mo stretchy="false">)</mo><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">rank-siz(lson)-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">a</span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">s</span><span class="mord mathnormal">o</span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span> 大的结点。</li>
+<li>若当前结点左子树大小加一小于（也就是加上根节点的大小）排名，则在右子树中寻找第 $rank-siz(lson)-1$ 大的结点。</li>
 <li>若当前结点左子树大小加一等于排名，则答案就是根节点。</li>
 </ul>
 <p>考虑到循环写法也很好写，所以采用了常数较小的循环写法，代码如下：</p>
 <div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">getVal</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> p = root;</span><br><span class="line">	<span class="keyword">while</span>(p) &#123;</span><br><span class="line">		<span class="keyword">if</span>(tr[tr[p].ls].siz + <span class="number">1</span> == x) &#123;</span><br><span class="line">			<span class="keyword">return</span> tr[p].val;</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span>(tr[tr[p].ls].siz &gt;= x) &#123;</span><br><span class="line">			p = tr[p].ls;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			x -= tr[tr[p].ls].siz + <span class="number">1</span>;</span><br><span class="line">			p = tr[p].rs;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-<h2 id="27-查找前驱lstval"><a class="markdownIt-Anchor" href="#27-查找前驱lstval"></a> 2.7 查找前驱（lstVal）</h2>
-<p>比要找的权值的排名少一的数就是答案，代码如下：</p>
+<h2 id="2-8-查找前驱（lstVal）"><a href="#2-8-查找前驱（lstVal）" class="headerlink" title="2.8 查找前驱（lstVal）"></a>2.8 查找前驱（lstVal）</h2><p>比要找的权值的排名少一的数就是答案，代码如下：</p>
 <div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">lstVal</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">getVal</span>(<span class="built_in">getRank</span>(x) - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-<h2 id="28-查找后继nxtval"><a class="markdownIt-Anchor" href="#28-查找后继nxtval"></a> 2.8 查找后继（nxtVal）</h2>
-<p>考虑带需要当前值可能不止一个，按照查找前驱的方法找到的返回值可能等同于自己。不过，如果我们要寻找 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">x+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>，这个值可能不存在，所以我们找到的就会是第一个大于等于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">x+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span> 的值，也就是后继。代码如下：</p>
+<h2 id="2-9-查找后继（nxtVal）"><a href="#2-9-查找后继（nxtVal）" class="headerlink" title="2.9 查找后继（nxtVal）"></a>2.9 查找后继（nxtVal）</h2><p>考虑带需要当前值可能不止一个，按照查找前驱的方法找到的返回值可能等同于自己。不过，如果我们要寻找 $x+1$，这个值可能不存在，所以我们找到的就会是第一个大于等于 $x+1$ 的值，也就是后继。代码如下：</p>
 <div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">nxtVal</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">getVal</span>(<span class="built_in">getRank</span>(x + <span class="number">1</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-<h1 id="3-例题"><a class="markdownIt-Anchor" href="#3-例题"></a> 3 例题</h1>
-<h2 id="31-例题1"><a class="markdownIt-Anchor" href="#31-例题1"></a> 3.1 例题1</h2>
-<p><strong>例题 1：<a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P6136" >[洛谷 P6136] 【模板】普通平衡树（数据加强版） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+<h1 id="3-例题"><a href="#3-例题" class="headerlink" title="3 例题"></a>3 例题</h1><h2 id="3-1-例题1"><a href="#3-1-例题1" class="headerlink" title="3.1 例题1"></a>3.1 例题1</h2><p><strong>例题 1：<a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P6136" >[洛谷 P6136] 【模板】普通平衡树（数据加强版） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
 <p><strong>题目大意：</strong></p>
 <blockquote>
 <p>你需要维护一个数据结构满足本文上述操作。</p>
@@ -431,14 +411,14 @@
             <div class="post-copyright-info">
                 <div class="article-copyright-info-container">
     <ul>
-        <li><strong>Title:</strong> FHQ-Treap（非旋 Treap）学习笔记</li>
+        <li><strong>Title:</strong> </li>
         <li><strong>Author:</strong> Pretharp</li>
         <li><strong>Created at
                 :</strong> 2023-10-12 11:41:40</li>
         
             <li>
                 <strong>Updated at
-                    :</strong> 2023-10-12 11:54:01
+                    :</strong> 2024-09-23 16:41:45
             </li>
         
         <li>
@@ -475,7 +455,7 @@
                                 <i class="fa-solid fa-chevron-left"></i>
                             </span>
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">树上启发式合并学习笔记</span>
+                                <span class="post-nav-title-item"></span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -488,7 +468,7 @@
                         href="/2023/10/11/%E5%8C%BA%E9%97%B4%20DP%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
                         >
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">区间 DP 学习笔记</span>
+                                <span class="post-nav-title-item"></span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex justify-center items-center">
@@ -553,8 +533,8 @@
             <div class="post-toc-wrap">
     <div class="post-toc">
         <div class="toc-title">On this page</div>
-        <div class="page-title">FHQ-Treap（非旋 Treap）学习笔记</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-fhq-treap-%E7%AE%80%E4%BB%8B"><span class="nav-text"> 1 FHQ-Treap 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#11-%E7%AE%97%E6%B3%95%E6%9D%A5%E5%8E%86%E5%BA%9F%E8%AF%9D"><span class="nav-text"> 1.1 算法来历&amp;废话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-%E5%9F%BA%E6%9C%AC%E6%80%A7%E8%B4%A8"><span class="nav-text"> 1.2 基本性质</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-text"> 2 基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#21-%E5%88%86%E8%A3%82split"><span class="nav-text"> 2.1 分裂（split）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#22-%E5%90%88%E5%B9%B6merge"><span class="nav-text"> 2.2 合并（merge）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#23-%E6%8F%92%E5%85%A5insert"><span class="nav-text"> 2.3 插入（insert)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#24-%E5%88%A0%E9%99%A4erase"><span class="nav-text"> 2.4 删除（erase）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#25-%E9%80%9A%E8%BF%87%E6%9D%83%E5%80%BC%E6%9F%A5%E6%89%BE%E6%8E%92%E5%90%8Dgetrank"><span class="nav-text"> 2.5 通过权值查找排名（getRank）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-%E9%80%9A%E8%BF%87%E6%8E%92%E5%90%8D%E6%89%BE%E6%9D%83%E5%80%BCgetval"><span class="nav-text"> 2.6 通过排名找权值（getVal）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#27-%E6%9F%A5%E6%89%BE%E5%89%8D%E9%A9%B1lstval"><span class="nav-text"> 2.7 查找前驱（lstVal）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#28-%E6%9F%A5%E6%89%BE%E5%90%8E%E7%BB%A7nxtval"><span class="nav-text"> 2.8 查找后继（nxtVal）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E4%BE%8B%E9%A2%98"><span class="nav-text"> 3 例题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#31-%E4%BE%8B%E9%A2%981"><span class="nav-text"> 3.1 例题1</span></a></li></ol></li></ol>
+        <div class="page-title"></div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%BC%95%E5%85%A5"><span class="nav-text">1 引入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E7%AE%97%E6%B3%95%E7%9B%B8%E5%85%B3"><span class="nav-text">1.1 算法相关</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E7%AE%97%E6%B3%95%E8%AE%B2%E8%A7%A3"><span class="nav-text">2 算法讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E5%9F%BA%E6%9C%AC%E6%80%A7%E8%B4%A8"><span class="nav-text">2.1 基本性质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E5%88%86%E8%A3%82%EF%BC%88split%EF%BC%89"><span class="nav-text">2.2 分裂（split）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E5%90%88%E5%B9%B6%EF%BC%88merge%EF%BC%89"><span class="nav-text">2.3 合并（merge）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E6%8F%92%E5%85%A5%EF%BC%88insert"><span class="nav-text">2.4 插入（insert)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-%E5%88%A0%E9%99%A4%EF%BC%88erase%EF%BC%89"><span class="nav-text">2.5 删除（erase）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-%E9%80%9A%E8%BF%87%E6%9D%83%E5%80%BC%E6%9F%A5%E6%89%BE%E6%8E%92%E5%90%8D%EF%BC%88getRank%EF%BC%89"><span class="nav-text">2.6 通过权值查找排名（getRank）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7-%E9%80%9A%E8%BF%87%E6%8E%92%E5%90%8D%E6%89%BE%E6%9D%83%E5%80%BC%EF%BC%88getVal%EF%BC%89"><span class="nav-text">2.7 通过排名找权值（getVal）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-8-%E6%9F%A5%E6%89%BE%E5%89%8D%E9%A9%B1%EF%BC%88lstVal%EF%BC%89"><span class="nav-text">2.8 查找前驱（lstVal）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-9-%E6%9F%A5%E6%89%BE%E5%90%8E%E7%BB%A7%EF%BC%88nxtVal%EF%BC%89"><span class="nav-text">2.9 查找后继（nxtVal）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E4%BE%8B%E9%A2%98"><span class="nav-text">3 例题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E4%BE%8B%E9%A2%981"><span class="nav-text">3.1 例题1</span></a></li></ol></li></ol>
 
     </div>
 </div>
@@ -584,7 +564,7 @@
               <span>2022</span>
               -
             
-            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">Pretharp</a>
+            2024&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">Pretharp</a>
         </div>
         
             <script data-swup-reload-script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>

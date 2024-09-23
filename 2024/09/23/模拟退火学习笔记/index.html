@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="Pretharp">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://example.com/2024/09/23/模拟退火学习笔记/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="1 引入1.1 算法相关笔者认为模拟退火是一种以人类思维启发式的、不会回溯的搜索，通常这种算法都不能通过一道题，因为其正确性无法保证的基础上还引入了大量的随机化，但是在实际比赛中对于一些数据较小、用其它算法很不好写的题目模拟退火可以得到一个还不错的分数。 2 前置知识2.1 爬山算法爬山算法是不断地寻找当前可转移的局部最优解并进行转移，若所有可转移的局部解都劣于当前的解，则算法结束，并认定当前解为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pretharp&#39;s Blog">
+<meta property="og:url" content="http://example.com/2024/09/23/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Pretharp&#39;s Blog">
+<meta property="og:description" content="1 引入1.1 算法相关笔者认为模拟退火是一种以人类思维启发式的、不会回溯的搜索，通常这种算法都不能通过一道题，因为其正确性无法保证的基础上还引入了大量的随机化，但是在实际比赛中对于一些数据较小、用其它算法很不好写的题目模拟退火可以得到一个还不错的分数。 2 前置知识2.1 爬山算法爬山算法是不断地寻找当前可转移的局部最优解并进行转移，若所有可转移的局部解都劣于当前的解，则算法结束，并认定当前解为">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://oi-wiki.org/misc/images/simulated-annealing.gif">
+<meta property="article:published_time" content="2024-09-23T08:45:39.153Z">
+<meta property="article:modified_time" content="2024-09-23T08:42:08.290Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://oi-wiki.org/misc/images/simulated-annealing.gif">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="https://cdn.luogu.com.cn/upload/image_hosting/ypjkmh9v.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.luogu.com.cn/upload/image_hosting/ypjkmh9v.png">
+    <meta name="theme-color" content="#009FAA">
+    <link rel="shortcut icon" href="https://cdn.luogu.com.cn/upload/image_hosting/ypjkmh9v.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+        Pretharp&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/assets/build/styles.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/fonts.css">
+
+    
+<link rel="stylesheet" href="/fonts/Satoshi/satoshi.css">
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    window.config = {"hostname":"example.com","root":"/","language":"en"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#009FAA","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"https://cdn.luogu.com.cn/upload/image_hosting/bgby869k.png","dark":"https://cdn.luogu.com.cn/upload/image_hosting/bgby869k.png"},"title":"Seu.T.L. Pretharp's Blog","subtitle":{"text":[],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#d1d1b6","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.5.0","navbar":{"auto_hide":false,"color":{"left":"#3D3D3D","right":"#3D3D3D","transparency":75},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Github":{"path":"https://github.com/Pretharp","icon":"fa-brands fa-github"},"Luogu":{"path":"https://www.luogu.com.cn/user/612663","icon":"fa-solid fa-circle-user"},"Portals":{"path":"/links/","icon":"fa-solid fa-link"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"Welcome to Pretharp's Blog in Seucionfrin Town Library","links":{"Cnblogs_Blog":{"path":"https://www.cnblogs.com/Pretharp","icon":"fa-solid fa-link"},"Luogu_Blog":{"path":"https://www.luogu.com.cn/blog/Pretharp/","icon":"fa-regular fa-archive"}}},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="swup-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+                <a class="logo-image" href="/">
+                    <img src="https://cdn.luogu.com.cn/upload/image_hosting/ypjkmh9v.png">
+                </a>
+            
+            <a class="logo-title" href="/">
+                
+                Pretharp&#39;s Blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        HOME
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    target="_blank" rel="noopener" href="https://github.com/Pretharp"  >
+                                    
+                                        
+                                            <i class="fa-brands fa-github"></i>
+                                        
+                                        GITHUB
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    target="_blank" rel="noopener" href="https://www.luogu.com.cn/user/612663"  >
+                                    
+                                        
+                                            <i class="fa-solid fa-circle-user"></i>
+                                        
+                                        LUOGU
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/links/"  >
+                                    
+                                        
+                                            <i class="fa-solid fa-link"></i>
+                                        
+                                        PORTALS
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer w-full absolute top-0 left-0 bg-background-color">
+        <ul class="drawer-navbar-list flex flex-col justify-start items-center">
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                HOME
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        target="_blank" rel="noopener" href="https://github.com/Pretharp"  >
+                             
+                                
+                                    <i class="fa-brands fa-github"></i>
+                                
+                                GITHUB
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        target="_blank" rel="noopener" href="https://www.luogu.com.cn/user/612663"  >
+                             
+                                
+                                    <i class="fa-solid fa-circle-user"></i>
+                                
+                                LUOGU
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/links/"  >
+                             
+                                
+                                    <i class="fa-solid fa-link"></i>
+                                
+                                PORTALS
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            
+                <h1 class="article-title-regular"></h1>
+            
+            </div>
+            
+                    
+        
+        
+            <div class="article-header flex flex-row gap-2 items-center">
+                <div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+                    <img src="https://cdn.luogu.com.cn/upload/image_hosting/ypjkmh9v.png">
+                </div>
+                <div class="info flex flex-col justify-between">
+                    <div class="author flex items-center">
+                        <span class="name text-default-text-color text-lg font-semibold">Pretharp</span>
+                        
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv1</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-09-23 16:45:39</span>
+        <span class="mobile">2024-09-23 16:45:39</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2024-09-23 16:42:08</span>
+            <span class="mobile">2024-09-23 16:42:08</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body">
+            <h1 id="1-引入"><a href="#1-引入" class="headerlink" title="1 引入"></a>1 引入</h1><h2 id="1-1-算法相关"><a href="#1-1-算法相关" class="headerlink" title="1.1 算法相关"></a>1.1 算法相关</h2><p>笔者认为模拟退火是一种以人类思维启发式的、不会回溯的搜索，通常这种算法都不能通过一道题，因为其正确性无法保证的基础上还引入了大量的随机化，但是在实际比赛中对于一些数据较小、用其它算法很不好写的题目模拟退火可以得到一个还不错的分数。</p>
+<h1 id="2-前置知识"><a href="#2-前置知识" class="headerlink" title="2 前置知识"></a>2 前置知识</h1><h2 id="2-1-爬山算法"><a href="#2-1-爬山算法" class="headerlink" title="2.1 爬山算法"></a>2.1 爬山算法</h2><p>爬山算法是不断地寻找当前可转移的局部最优解并进行转移，若所有可转移的局部解都劣于当前的解，则算法结束，并认定当前解为最优解。对于单峰函数而言，正确性显然，但如果全局最优解需要从当前局部最优解转移到一个更劣解再转移，这样的算法就会像贪心一样错误。</p>
+<h1 id="3-算法讲解"><a href="#3-算法讲解" class="headerlink" title="3 算法讲解"></a>3 算法讲解</h1><h2 id="3-1-算法流程"><a href="#3-1-算法流程" class="headerlink" title="3.1 算法流程"></a>3.1 算法流程</h2><p>模拟退火大致为爬山算法的改进版。首先会找到一个初始状态，接下来对于所有状态，我们会有概率的选择转移或不转移。设当前状态为 $S$，选择转移或否的状态为 $S’$，转移概率如下：</p>
+<script type="math/tex; mode=display">
+P=
+\begin{cases}
+1 &\mathrm{S'\ is\ better\ than\ S} \\
+e^{\frac{-\Delta E}{t}} &\mathrm{otherwise}
+\end{cases}</script><p>其中 $\Delta E$ 是 $S$ 和 $S’$ 的差值，$t$ 是温度，温度就是模拟退火的一个核心概念了。</p>
+<p>一开始，温度通常非常大，则在上述转移的概率中，第二种情况的概率也比较大。随着时间的转移，温度将会逐渐缩小（即降温），那么第二种情况的概率也会减小。通常情况下，我们每一次转移后就会将 $t$ 乘上一个略比 $1$ 小的数（参考 $[0.985,0.999]$），当 $t$ 小到一定程度（参考 $10^{-10}$）就会停止降温，故而停止算法。</p>
+<p>没理解为什么？我们将这种算法转移到生活实际上：</p>
+<blockquote>
+<p>Pretharp 在玩游戏，这个游戏是一个战略游戏，你可以选择保持当前的情况，也可以选择放手一搏，这样可能为 Pretharp 带来更好的情况，也有可能把 Pretharp 逼入绝境。</p>
+<p>一开始，Pretharp 非常爱冒险，会随便挑选一个未来的局面作为目标。如果当前可以使局面变得更好，Pretharp 一定会这么干，但是如果会使局面更差，Pretharp 也会有很大的概率去选择这么做（温度高）。</p>
+<p>随着时间的转移，Pretharp 开始变得谨慎，如果选择一个未来的局面作为目标会变得更好，Pretharp 还是会这么干，但是若会变得更差，Pretharp 会很谨慎的考虑去选择这么做（温度低）。&gt;<br>当 Pretharp 已经不想再冒险时（温度到达很低值），游戏结束。</p>
+</blockquote>
+<p>放一张图，图来自 <a class="link"   target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Simulated_annealing" >Simulated annealing - Wikipedia <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>，图链来自于 <a class="link"   target="_blank" rel="noopener" href="https://oi-wiki.org/misc/simulated-annealing/" >OI Wiki <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 的图：</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://oi-wiki.org/misc/images/simulated-annealing.gif"
+                      alt=""
+                ></p>
+<p>可以看到，随着温度降低当前状态的跳跃程度越来越小，最终锁定一个最大值。</p>
+<h2 id="3-2-注意事项"><a href="#3-2-注意事项" class="headerlink" title="3.2 注意事项"></a>3.2 注意事项</h2><p>因为模拟退火的正确性无法保证，因此，我们可以记录算法过程中遇到的最优答案作为答案。</p>
+<p>其次，每一次运行算法的结果可能不一样，因此我们可以在不超时的情况下多次运行该算法以得到更高的概率来获得正确答案。考虑到确定一个确切的运行算法次数较难且有大概率超时，我们通常使用以下代码卡时：</p>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>((<span class="type">double</span>)<span class="built_in">clock</span>() / CLOCKS_PER_SEC &lt; TimeLimit) &#123; <span class="comment">// TimeLimit 是一个变量，是一个比本题实现略小的数（单位秒）。</span></span><br><span class="line">	<span class="comment">/*模拟退火算法本身*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>最后，对于求出 $e^x$，在 C++ 下可以直接使用 <code>exp(x)</code> 求出其值。</p>
+<h2 id="3-3-参考模板"><a href="#3-3-参考模板" class="headerlink" title="3.3 参考模板"></a>3.3 参考模板</h2><p>考虑到模拟退火每一次算法的代码大体相似，这里提供一种模拟退火的参考实现方式（CPP）。</p>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">double</span> dcr = <span class="number">0.988</span>;</span><br><span class="line"><span class="type">int</span> ans, ans_pos, now;</span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">calc</span><span class="params">(type1 name1, ...)</span> </span>&#123; <span class="comment">// 用于求出当前局面的权值的函数。 </span></span><br><span class="line">	code1;</span><br><span class="line">	code2;</span><br><span class="line">	...</span><br><span class="line">	<span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ttSA SimulateAnneal</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SimulateAnneal</span><span class="params">()</span> </span>&#123; <span class="comment">// 模拟退火本体。 </span></span><br><span class="line">	<span class="type">double</span> t = <span class="number">2000</span>; <span class="comment">// 初始化温度。 </span></span><br><span class="line">	now = ans_pos; <span class="comment">// 用于多次执行模拟退火，每一次开始时从最优状态开始转移。 </span></span><br><span class="line">	<span class="keyword">while</span>(t &gt; <span class="number">1e-14</span>) &#123; <span class="comment">// 结束条件通常设置为温度过低。 </span></span><br><span class="line">		<span class="type">double</span> nxt = now + ...; <span class="comment">// 随机出下一个状态。 </span></span><br><span class="line">		<span class="type">double</span> delta = <span class="built_in">calc</span>(nxt) - ans; <span class="comment">// 求出 delta E，即下一个状态和当前状态的差值。 </span></span><br><span class="line">		<span class="keyword">if</span>(delta &gt; <span class="number">0</span>) &#123; <span class="comment">// delta 大于 0（也有可能是其它情况），说明下一个状态比当前状态更有，进行转移。 </span></span><br><span class="line">			now = nxt, ans_pos = nxt; <span class="comment">// 更新当前状态及最优状态。 </span></span><br><span class="line">			ans = <span class="built_in">calc</span>(ans_pos); <span class="comment">// 求出当前最优答案。 </span></span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">exp</span>(-delta / t) * RAND_MAX &gt; <span class="built_in">rand</span>()) &#123; <span class="comment">// 否则，概率转移。 </span></span><br><span class="line">			now = nxt;</span><br><span class="line">		&#125;</span><br><span class="line">		t *= dcr; <span class="comment">// 降温。 </span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">srand</span>(<span class="built_in">time</span>(<span class="literal">NULL</span>)); <span class="comment">// 重置随机种子。 </span></span><br><span class="line">	<span class="comment">/* 输入部分 */</span></span><br><span class="line">	ans_pos = ..., ans = <span class="built_in">calc</span>(ans_pos); <span class="comment">// 一般初始会将 ans_pos 设置为一个较为接近于平均值的值，也可以完全随机。 </span></span><br><span class="line">	<span class="keyword">while</span>((<span class="type">double</span>)<span class="built_in">clock</span>() / CLOCKS_PER_SEC &lt; <span class="number">0.95</span>) &#123; <span class="comment">// 卡时执行模拟退火。 </span></span><br><span class="line">		<span class="built_in">ttSA</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">/* 输出部分 */</span> </span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+<p>上述代码中很多参数可用于更改，代码仅供参考。</p>
+<h1 id="4-例题"><a href="#4-例题" class="headerlink" title="4 例题"></a>4 例题</h1><h2 id="4-1-例题-1-2"><a href="#4-1-例题-1-2" class="headerlink" title="4.1 例题 1~2"></a>4.1 例题 1~2</h2><p><strong>例题 1：<a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1337" >[JSOI2004] 平衡点 / 吊打XXX <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+<p><strong>题目大意：</strong></p>
+<blockquote>
+<p>给定 $n$ 个点的坐标 $(x<em>i,y_i)$ 和权值 $w_i$，请求出一个点，使得 $\sum\limits</em>{i=1}^n dist_i \times w_i$ 最小，其中 $dist_i$ 是第 $i$ 个点与你选择的点的欧几里得距离。</p>
+</blockquote>
+<p><strong>分析：</strong></p>
+<p>考虑模拟退火。不难发现，本题答案的函数跨度不大，我们可以理想出爬山算法的模型，在一个点附近有一个点答案很优（即山顶），所以我们可以使用模拟退火来寻找答案。在本题中，先找到一个初始状态，之后以这个点为中心向四周随机一个点作为下一个状态，且下一个状态和当前状态的距离会逐渐缩小。其余部分在之前的算法讲解基本都有介绍，可以理解为模板。</p>
+<p><strong>参考代码：</strong></p>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">double</span> dcr = <span class="number">0.998</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">1010</span>;</span><br><span class="line"><span class="type">int</span> n;</span><br><span class="line"><span class="type">double</span> nowx, nowy, ans, ansx, ansy;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Thing</span> &#123;</span><br><span class="line">	<span class="type">int</span> x, y, w;</span><br><span class="line">&#125; a[N];</span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">dist</span><span class="params">(<span class="type">double</span> xa, <span class="type">double</span> ya, <span class="type">double</span> xb, <span class="type">double</span> yb)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">sqrt</span>((xa - xb) * (xa - xb) + (ya - yb) * (ya - yb));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">calc</span><span class="params">(<span class="type">double</span> x, <span class="type">double</span> y)</span> </span>&#123;</span><br><span class="line">	<span class="type">double</span> res = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++) &#123;</span><br><span class="line">		res += <span class="built_in">dist</span>((<span class="type">double</span>)a[i].x, (<span class="type">double</span>)a[i].y, x, y) * (<span class="type">double</span>)a[i].w;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ttSA SimulateAnneal</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SimulateAnneal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">double</span> t = <span class="number">2000</span>;</span><br><span class="line">	nowx = ansx, nowy = ansy;</span><br><span class="line">	<span class="keyword">while</span>(t &gt; <span class="number">1e-14</span>) &#123;</span><br><span class="line">		<span class="type">double</span> nxtx = nowx + t * (<span class="built_in">rand</span>() * <span class="number">2</span> - RAND_MAX);</span><br><span class="line">		<span class="type">double</span> nxty = nowy + t * (<span class="built_in">rand</span>() * <span class="number">2</span> - RAND_MAX);</span><br><span class="line">		<span class="type">double</span> delta = <span class="built_in">calc</span>(nxtx, nxty) - ans;</span><br><span class="line">		<span class="keyword">if</span>(delta &lt; <span class="number">0</span>) &#123;</span><br><span class="line">			nowx = nxtx, nowy = nxty;</span><br><span class="line">			ansx = nowx, ansy = nowy, ans = <span class="built_in">calc</span>(ansx, ansy);</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">exp</span>(-delta / t) * RAND_MAX &gt; <span class="built_in">rand</span>()) &#123;</span><br><span class="line">			nowx = nxtx, nowy = nxty;</span><br><span class="line">		&#125;</span><br><span class="line">		t *= dcr;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">srand</span>(<span class="built_in">time</span>(<span class="literal">NULL</span>));</span><br><span class="line">	cin &gt;&gt; n;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++) &#123;</span><br><span class="line">		cin &gt;&gt; a[i].x &gt;&gt; a[i].y &gt;&gt; a[i].w;</span><br><span class="line">		ansx += a[i].x, ansy += a[i].y;</span><br><span class="line">	&#125;</span><br><span class="line">	ansx /= n, ansy /= n, ans = <span class="built_in">calc</span>(ansx, ansy);</span><br><span class="line">	<span class="keyword">while</span>((<span class="type">double</span>)<span class="built_in">clock</span>() / CLOCKS_PER_SEC &lt; <span class="number">0.95</span>) &#123;</span><br><span class="line">		<span class="built_in">ttSA</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">printf</span>(<span class="string">&quot;%.3lf %.3lf\n&quot;</span>, ansx, ansy), <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p><strong>例题 2：<a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2503" >[HAOI2006] 均分数据 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+<p><strong>题目大意：</strong></p>
+<blockquote>
+<p>给定 $n$ 个元素，每个点有一个权值 $a<em>i$，你需要将这些元素分为 $m$ 组，其中第 $j$ 组中的元素和为 $b_i$，使得 $\sqrt{\frac{1}{m} \sum\limits</em>{i=1}^m (avg - b<em>i)^2}$ 最小，其中 $avg=\frac{1}{m} \sum\limits</em>{i=1}^{m} b_i$。</p>
+</blockquote>
+<p><strong>分析：</strong></p>
+<p>还是同样的套路，初始状态可以将每个元素随机分组，之后转移每次选择一个随机的元素，将它移动到一个随机的组别。值得一提的是，模拟退火得不到满分也是很正常的事，对于每一道题可能需要适时修改各类参数。</p>
+<p><strong>参考代码：</strong></p>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">25</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">double</span> dcr = <span class="number">0.996</span>;</span><br><span class="line"><span class="type">int</span> n, m, a[N], sum[N], from[N];</span><br><span class="line"><span class="type">double</span> avg, ans;</span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">calc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">double</span> res = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i ++) &#123;</span><br><span class="line">		res += <span class="number">1.0</span> * (avg - sum[i]) * (avg - sum[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> res / m;</span><br><span class="line">&#125; </span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">modify</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123;</span><br><span class="line">	sum[from[x]] -= a[x];</span><br><span class="line">	from[x] = y;</span><br><span class="line">	sum[from[x]] += a[x];</span><br><span class="line">&#125; </span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ttSA SimulateAnneal</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SimulateAnneal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">double</span> t = <span class="number">3000</span>;</span><br><span class="line">	<span class="keyword">while</span>(t &gt; <span class="number">1e-11</span>) &#123;</span><br><span class="line">		<span class="type">int</span> p1 = <span class="built_in">rand</span>() % n + <span class="number">1</span>, p2 = <span class="built_in">rand</span>() % m + <span class="number">1</span>, p3 = from[p1];</span><br><span class="line">		<span class="built_in">modify</span>(p1, p2);</span><br><span class="line">		<span class="type">double</span> now = <span class="built_in">calc</span>(), delta = now - ans;</span><br><span class="line">		<span class="built_in">modify</span>(p1, p3);</span><br><span class="line">		<span class="keyword">if</span>(delta &lt; <span class="number">0</span>) &#123;</span><br><span class="line">			ans = now;</span><br><span class="line">			<span class="built_in">modify</span>(p1, p2);</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">exp</span>(-delta / t) * RAND_MAX &gt; <span class="built_in">rand</span>()) &#123;</span><br><span class="line">			<span class="built_in">modify</span>(p1, p2);</span><br><span class="line">		&#125;</span><br><span class="line">		t *= dcr;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">srand</span>(<span class="built_in">time</span>(<span class="literal">NULL</span>));</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++) &#123;</span><br><span class="line">		cin &gt;&gt; a[i], avg += a[i];</span><br><span class="line">		from[i] = <span class="built_in">rand</span>() % m + <span class="number">1</span>, sum[from[i]] += a[i];</span><br><span class="line">	&#125;</span><br><span class="line">	avg /= m, ans = <span class="built_in">calc</span>();</span><br><span class="line">	<span class="keyword">while</span>((<span class="type">double</span>)<span class="built_in">clock</span>() / CLOCKS_PER_SEC &lt; <span class="number">0.9</span>) &#123;</span><br><span class="line">		<span class="built_in">ttSA</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">printf</span>(<span class="string">&quot;%.2lf&quot;</span>, <span class="built_in">sqrt</span>(ans)), <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<h1 id="5-习题"><a href="#5-习题" class="headerlink" title="5 习题"></a>5 习题</h1><h2 id="5-1-对于例题-1-2-的习题"><a href="#5-1-对于例题-1-2-的习题" class="headerlink" title="5.1 对于例题 1~2 的习题"></a>5.1 对于例题 1~2 的习题</h2><ol>
+<li><p><a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2538" >[SCOI2008] 城堡 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P5544" >[JSOI2016] 炸弹攻击1 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4035" >[JSOI2008] 球形空间产生器 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3936" >[洛谷 P3936] Coloring <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+</ol>
+<p>更多习题参见 <a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/training/4855" >[洛谷] 模拟退火系列 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>。</p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> </li>
+        <li><strong>Author:</strong> Pretharp</li>
+        <li><strong>Created at
+                :</strong> 2024-09-23 16:45:39</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2024-09-23 16:42:08
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://pretharp.github.io/2024/09/23/模拟退火学习笔记/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+            This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>.
+            
+
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                        rel="prev"
+                        href="/2024/09/23/CDQ%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item"></span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                        rel="next"
+                        href="/2024/09/23/%E5%8D%9A%E5%BC%88%E8%AE%BA%EF%BC%88SG%EF%BC%89%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item"></span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+
+        
+            <div class="comment-container">
+                <div class="comments-container pjax">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;Comments
+    </div>
+    
+
+        
+            
+ 
+    <div id="waline"></div>
+    <script type="module"  data-swup-reload-script>
+        import { init } from '/js/libs/waline.mjs';
+
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://example.example.com',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+            });
+        }
+
+        if ('true') {
+            const loadWalineTimeout = setTimeout(() => {
+                loadWaline();
+                clearTimeout(loadWalineTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadWaline);
+        }
+        
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title"></div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%BC%95%E5%85%A5"><span class="nav-text">1 引入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E7%AE%97%E6%B3%95%E7%9B%B8%E5%85%B3"><span class="nav-text">1.1 算法相关</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="nav-text">2 前置知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E7%88%AC%E5%B1%B1%E7%AE%97%E6%B3%95"><span class="nav-text">2.1 爬山算法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E7%AE%97%E6%B3%95%E8%AE%B2%E8%A7%A3"><span class="nav-text">3 算法讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B"><span class="nav-text">3.1 算法流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-text">3.2 注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E5%8F%82%E8%80%83%E6%A8%A1%E6%9D%BF"><span class="nav-text">3.3 参考模板</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E4%BE%8B%E9%A2%98"><span class="nav-text">4 例题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E4%BE%8B%E9%A2%98-1-2"><span class="nav-text">4.1 例题 1~2</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E4%B9%A0%E9%A2%98"><span class="nav-text">5 习题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-%E5%AF%B9%E4%BA%8E%E4%BE%8B%E9%A2%98-1-2-%E7%9A%84%E4%B9%A0%E9%A2%98"><span class="nav-text">5.1 对于例题 1~2 的习题</span></a></li></ol></li></ol>
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">I Love Mijacs Forever!</div>
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2024&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">Pretharp</a>
+        </div>
+        
+            <script data-swup-reload-script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.5.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+    
+<script src="/js/libs/Swup.min.js"></script>
+
+<script src="/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+
+
+
+<script src="/js/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/utils.js" type="module"></script>
+
+<script src="/js/main.js" type="module"></script>
+
+<script src="/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/layouts/categoryList.js" type="module"></script>
+
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+<div class="post-scripts" data-swup-reload-script>
+    
+        
+<script src="/js/libs/anime.min.js"></script>
+
+        
+<script src="/js/tools/tocToggle.js" type="module"></script>
+
+<script src="/js/layouts/toc.js" type="module"></script>
+
+<script src="/js/plugins/tabs.js" type="module"></script>
+
+    
+</div>
+
+
+</body>
+</html>
